@@ -57,7 +57,9 @@ public class ChessBoard {
 
     public ChessPiece getPieceByLocation(Coordinate coordinate){
         for(ChessPiece chesspiece : piecesOnBoard){
-            if (coordinate.equals(chesspiece.getCoordinate()));
+            if (coordinate.equals(chesspiece.getCoordinate())){
+                return chesspiece;
+            };
         }
         return null;
     }
@@ -73,14 +75,6 @@ public class ChessBoard {
             System.out.println("This move is invalid - you must move a piece!");
             return false;
         }
-        /*ChessPiece removedPiece = getPieceByLocation(finishPosition);
-        if (removedPiece != null) {
-            if(removedPiece.getColour().matches(colour)){
-                System.out.println("This move is invalid - you can't have two pieces in the same square");
-                return false;
-            }
-            removePiece(chesspiece2);
-        }*/
         ChessPiece removedPiece = null;
         try {
             removedPiece = chessPiece.movePiece(this, finishPosition);
@@ -88,12 +82,10 @@ public class ChessBoard {
             System.out.println(e.getMessage());
             return false;
         }
-        //chessPiece.setCoordinate(finishPosition);
         if(getKing(colour).isInCheck(this)){
             System.out.println("This move is invalid - you can't put your own king in check");
             chessPiece.setCoordinate(startPosition);
             if(removedPiece != null){
-
                 addPiece(removedPiece);
             }
             return false;
@@ -130,5 +122,15 @@ public class ChessBoard {
         }
         piecesOnBoard.add(chesspiece);
         return true;
+    }
+
+    //for testing
+    public boolean contains(ChessPiece chessPiece){
+        for (ChessPiece pieceOnBoard : piecesOnBoard){
+            if (pieceOnBoard.equals(chessPiece)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -6,6 +6,8 @@ import com.ciaran.upskill.chessgame.UtilClass;
 
 import java.util.ArrayList;
 
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+
 public class King extends ChessPiece {
 
     boolean moved;
@@ -169,6 +171,7 @@ public class King extends ChessPiece {
             roamingCoordinate.moveYAxisDown();
             i++;
         }
+        //Up&Right
         roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
         roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
         chessPiece = null;
@@ -222,12 +225,12 @@ public class King extends ChessPiece {
     public boolean validateMove(ChessBoard chessBoard, Coordinate finishPosition) {
         int xAxisDiff = finishPosition.getXaxis()-coordinate.getXaxis();
         int yAxisDiff = finishPosition.getYaxis()-coordinate.getYaxis();
-        if (UtilClass.modulo(xAxisDiff)==2){
-            if (UtilClass.modulo(yAxisDiff)>0){
+        //Validates Castling
+        if (modulo(xAxisDiff)==2){
+            if (modulo(yAxisDiff)>0||moved){
                 return false;
             }
-            Coordinate rookCoordinate = new Coordinate('A', '1');
-            rookCoordinate.setYaxis(coordinate.getYaxis());
+            Coordinate rookCoordinate = new Coordinate(0, coordinate.getYaxis());
             if(xAxisDiff>0){
                 rookCoordinate.setXaxis(8);
             } else {
@@ -238,14 +241,12 @@ public class King extends ChessPiece {
                 return false;
             }
             Rook rook = (Rook) chessPiece;
-            if (rook.hasMoved()||hasMoved()){
+            if (rook.hasMoved()){
                 return false;
             }
-            Coordinate roamingCoordinate = new Coordinate('A', '1');
-            roamingCoordinate.setXaxis(coordinate.getXaxis());
-            roamingCoordinate.setYaxis(coordinate.getYaxis());
-            while(roamingCoordinate!=rookCoordinate){
-                if(roamingCoordinate!=coordinate){
+            Coordinate roamingCoordinate = new Coordinate(coordinate.getXaxis(), coordinate.getYaxis());
+            while(!roamingCoordinate.equals(rookCoordinate)){
+                if(!roamingCoordinate.equals(coordinate)){
                     if (chessBoard.getPieceByLocation(roamingCoordinate)!=null){
                         return false;
                     }
@@ -257,6 +258,8 @@ public class King extends ChessPiece {
                 }
             }
 
+        } else if (modulo(xAxisDiff)>1||modulo(yAxisDiff)>1){
+            return false;
         }
         return true;
     }
@@ -267,9 +270,13 @@ public class King extends ChessPiece {
 
 
     public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) throws IllegalMoveException {
-        validateMove(chessBoard,finishPosition);
+        if (!validateMove(chessBoard,finishPosition)){
+            throw new IllegalMoveException();
+        };
         int xAxisDiff = finishPosition.getXaxis() - coordinate.getXaxis();
-        if (UtilClass.modulo(xAxisDiff)==2){
+        ChessPiece removedPiece = null;
+        if (modulo(xAxisDiff)==2){
+            int rookXaxis = (xAxisDiff/modulo(xAxisDiff))+coordinate.getXaxis();
             for(int i = 0; i<2;i++) {
                 if (xAxisDiff > 0) {
                     coordinate.moveXAxisUp();
@@ -283,15 +290,20 @@ public class King extends ChessPiece {
                     }
                 }
             }
+            Coordinate rookCoordinate = new Coordinate(0, coordinate.getYaxis());
+            if(xAxisDiff>0){
+                rookCoordinate.setXaxis(8);
+            } else {
+                rookCoordinate.setXaxis(1);
+            }
+            chessBoard.getPieceByLocation(rookCoordinate).coordinate = new Coordinate(rookXaxis, coordinate.getYaxis());
 
         }else {
-            if (isInCheck(chessBoard)) {
-                throw new IllegalMoveException();
+            removedPiece = chessBoard.getPieceByLocation(finishPosition);
+            if(removedPiece!=null){
+                chessBoard.removePiece(removedPiece);
             }
-        }
-        ChessPiece removedPiece = chessBoard.getPieceByLocation(finishPosition);
-        if(removedPiece!=null){
-            chessBoard.removePiece(removedPiece);
+            coordinate = finishPosition;
         }
         moved = true;
         return removedPiece;

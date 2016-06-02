@@ -7,7 +7,7 @@ public class Coordinate {
 
     public Coordinate(char xaxis, char yaxis){
         this.xaxis=convertToInteger(xaxis);
-        this.yaxis=yaxis;
+        this.yaxis= Integer.parseInt(String.valueOf(yaxis));
     }
 
     public Coordinate(int xaxis, int yaxis) {
@@ -15,7 +15,7 @@ public class Coordinate {
         this.yaxis=yaxis;
     }
 
-    private int convertToInteger(char xaxis) {
+    private int convertToInteger(char xaxis) throws IllegalArgumentException{
         switch (xaxis){
             case 'A': return 1;
             case 'B': return 2;
@@ -25,7 +25,7 @@ public class Coordinate {
             case 'F': return 6;
             case 'G': return 7;
             case 'H': return 8;
-            default: return Integer.parseInt(null);
+            default: throw new IllegalArgumentException("Character must be in range A-H");
         }
     }
 
@@ -47,24 +47,17 @@ public class Coordinate {
         }
     }
 
-    public void setXaxis(int xaxis) { this.xaxis = xaxis;
-    }
-
-    public void setXaxis(char xaxis) {
-        this.xaxis = convertToInteger(xaxis);
+    public void setXaxis(int xaxis) {
+        if (xaxis<1||xaxis>8)throw new IllegalArgumentException("Xaxis ranges from 1 to 8");
+        this.xaxis = xaxis;
     }
 
     public int getYaxis() {
         return yaxis;
     }
 
-    public char getYaxisChar() { return (char) yaxis;}
-
     public void setYaxis(int yaxis) {
-        this.yaxis = yaxis;
-    }
-
-    public void setYaxis(char yaxis) {
+        if (yaxis<1||yaxis>8)throw new IllegalArgumentException("Yaxis ranges from 1 to 8");
         this.yaxis = yaxis;
     }
 
@@ -82,5 +75,17 @@ public class Coordinate {
 
     public void moveYAxisDown() {
         yaxis--;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinate that = (Coordinate) o;
+
+        if (xaxis != that.xaxis) return false;
+        return yaxis == that.yaxis;
+
     }
 }

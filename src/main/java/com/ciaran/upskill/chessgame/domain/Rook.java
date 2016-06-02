@@ -1,6 +1,7 @@
 package com.ciaran.upskill.chessgame.domain;
 
 import com.ciaran.upskill.chessgame.ChessBoard;
+import com.ciaran.upskill.chessgame.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 
 public class Rook extends ChessPiece {
@@ -25,8 +26,8 @@ public class Rook extends ChessPiece {
         Coordinate roamingCoordinate = new Coordinate('A', '1');
         roamingCoordinate.setXaxis(coordinate.getXaxis());
         roamingCoordinate.setYaxis(coordinate.getYaxis());
-        while(roamingCoordinate!=finishPosition){
-            if(roamingCoordinate!=coordinate){
+        while(!roamingCoordinate.equals(finishPosition)){
+            if(!roamingCoordinate.equals(coordinate)){
                 if (chessBoard.getPieceByLocation(roamingCoordinate)!=null){
                     return false;
                 }
@@ -46,8 +47,10 @@ public class Rook extends ChessPiece {
     }
 
 
-    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) {
-        validateMove(chessBoard,finishPosition);
+    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) throws IllegalMoveException {
+        if (!validateMove(chessBoard,finishPosition)){
+            throw new IllegalMoveException();
+        };
         ChessPiece removedPiece = chessBoard.getPieceByLocation(finishPosition);
         if(removedPiece!=null){
             chessBoard.removePiece(removedPiece);

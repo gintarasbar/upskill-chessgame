@@ -1,6 +1,7 @@
 package com.ciaran.upskill.chessgame.domain;
 
 import com.ciaran.upskill.chessgame.ChessBoard;
+import com.ciaran.upskill.chessgame.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 
 public class Knight extends ChessPiece {
@@ -29,8 +30,10 @@ public class Knight extends ChessPiece {
     }
 
 
-    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) {
-        validateMove(chessBoard,finishPosition);
+    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) throws IllegalMoveException {
+        if (!validateMove(chessBoard,finishPosition)){
+            throw new IllegalMoveException();
+        };
         ChessPiece removedPiece = chessBoard.getPieceByLocation(finishPosition);
         if(removedPiece!=null){
             chessBoard.removePiece(removedPiece);
