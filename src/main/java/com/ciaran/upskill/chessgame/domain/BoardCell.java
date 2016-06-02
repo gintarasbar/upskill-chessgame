@@ -1,21 +1,24 @@
 package com.ciaran.upskill.chessgame.domain;
 
-public class Coordinate {
+public class BoardCell {
 
     private int xaxis;
     private int yaxis;
 
-    public Coordinate(char xaxis, char yaxis){
-        this.xaxis=convertToInteger(xaxis);
-        this.yaxis= Integer.parseInt(String.valueOf(yaxis));
-    }
+    public static BoardCell createValidBoardCell(String coordinate) {
+        if(coordinate.matches("[A-H][1-8]")){
+            return new BoardCell(convertToInteger(coordinate.charAt(0)),Integer.parseInt(String.valueOf(coordinate.charAt(1))));
+        }
+        System.out.println("The co-ordinate you have input is invalid, please try again. Remember a co-ordinate is comprised of a letter from A-H followed by a number from 1-8.");
+        return null;
+    };
 
-    public Coordinate(int xaxis, int yaxis) {
+    public BoardCell(int xaxis, int yaxis) {
         this.xaxis=xaxis;
         this.yaxis=yaxis;
     }
 
-    private int convertToInteger(char xaxis) throws IllegalArgumentException{
+    private static int convertToInteger(char xaxis) throws IllegalArgumentException{
         switch (xaxis){
             case 'A': return 1;
             case 'B': return 2;
@@ -82,7 +85,7 @@ public class Coordinate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Coordinate that = (Coordinate) o;
+        BoardCell that = (BoardCell) o;
 
         if (xaxis != that.xaxis) return false;
         return yaxis == that.yaxis;

@@ -1,29 +1,29 @@
-package com.ciaran.upskill.chessgame.domain;
+package com.ciaran.upskill.chessgame.domain.chesspiece;
 
-import com.ciaran.upskill.chessgame.ChessBoard;
+import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.IllegalMoveException;
-import com.ciaran.upskill.chessgame.UtilClass;
+import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import static com.ciaran.upskill.chessgame.UtilClass.modulo;
 
 public class Pawn extends ChessPiece {
 
-    private final Coordinate startPosition;
+    private final BoardCell startPosition;
     private String direction;
     private boolean hasMoved;
 
-    public Pawn(Coordinate coordinate, String colour, String direction){
+    public Pawn(BoardCell boardCell, String colour, String direction){
         this.type = "pawn";
-        this.coordinate = coordinate;
-        this.startPosition = coordinate;
+        this.boardCell = boardCell;
+        this.startPosition = boardCell;
         this.colour = colour;
         this.direction = direction;
         hasMoved = false;
     }
 
-    public boolean validateMove(ChessBoard chessBoard, Coordinate finishPosition) {
-        int xAxisDiff = finishPosition.getXaxis() - coordinate.getXaxis();
-        int yAxisDiff = finishPosition.getYaxis() - coordinate.getYaxis();
+    public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
+        int xAxisDiff = finishPosition.getXaxis() - boardCell.getXaxis();
+        int yAxisDiff = finishPosition.getYaxis() - boardCell.getYaxis();
         if(modulo(xAxisDiff)>1|| modulo(yAxisDiff)>2||(xAxisDiff!=0&&yAxisDiff!=1)||yAxisDiff==0){
             System.out.println("Illegal - Pawn move");
             return false;
@@ -35,7 +35,7 @@ public class Pawn extends ChessPiece {
         if (modulo(xAxisDiff)==1){
             if (chessBoard.getPieceByLocation(finishPosition)==null){
                 int yAxis = finishPosition.getYaxis();
-                finishPosition.setYaxis(coordinate.getYaxis());
+                finishPosition.setYaxis(boardCell.getYaxis());
                 ChessPiece chessPiece = chessBoard.getPieceByLocation(finishPosition);
                 finishPosition.setYaxis(yAxis);
                 if(chessPiece!=null){
@@ -43,7 +43,7 @@ public class Pawn extends ChessPiece {
                         System.out.println("Illegal - Pawn move");
                         return false;
                     }
-                    if (modulo(coordinate.getYaxis()-startPosition.getYaxis())!=3){
+                    if (modulo(boardCell.getYaxis()-startPosition.getYaxis())!=3){
                         System.out.println("Illegal - Pawn move");
                         return false;
                     }
@@ -62,19 +62,19 @@ public class Pawn extends ChessPiece {
                 System.out.println("Pawn can't move 2 spaces if it has already moved");
                 return false;
             }
-            Coordinate roamingCoordinate = new Coordinate('A', '1');
-            roamingCoordinate.setXaxis(coordinate.getXaxis());
-            roamingCoordinate.setYaxis(coordinate.getYaxis());
-            while (!roamingCoordinate.equals(finishPosition)) {
-                if (!roamingCoordinate.equals(coordinate)) {
-                    if (chessBoard.getPieceByLocation(roamingCoordinate) != null) {
+            BoardCell roamingBoardCell = new BoardCell('A', '1');
+            roamingBoardCell.setXaxis(boardCell.getXaxis());
+            roamingBoardCell.setYaxis(boardCell.getYaxis());
+            while (!roamingBoardCell.equals(finishPosition)) {
+                if (!roamingBoardCell.equals(boardCell)) {
+                    if (chessBoard.getPieceByLocation(roamingBoardCell) != null) {
                         return false;
                     }
                 }
                 if (yAxisDiff > 0) {
-                    roamingCoordinate.moveYAxisUp();
+                    roamingBoardCell.moveYAxisUp();
                 } else {
-                    roamingCoordinate.moveYAxisDown();
+                    roamingBoardCell.moveYAxisDown();
                 }
             }
         }
@@ -90,7 +90,7 @@ public class Pawn extends ChessPiece {
     }
 
 
-    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) throws IllegalMoveException {
+    public ChessPiece movePiece(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException {
         if (!validateMove(chessBoard,finishPosition)){
             throw new IllegalMoveException();
         };
@@ -98,7 +98,8 @@ public class Pawn extends ChessPiece {
         if(removedPiece!=null){
             chessBoard.removePiece(removedPiece);
         }
-        setCoordinate(finishPosition);
+        setBoardCell(finishPosition);
+        //TODO Pawn Conversion
         return removedPiece;
     }
 }

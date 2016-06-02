@@ -1,8 +1,11 @@
 package com.ciaran.upskill.chessgame;
 
-import com.ciaran.upskill.chessgame.domain.Coordinate;
+import com.ciaran.upskill.chessgame.domain.ChessBoard;
+import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import java.util.Scanner;
+
+import static com.ciaran.upskill.chessgame.domain.BoardCell.createValidBoardCell;
 
 
 public class ChessGame {
@@ -47,25 +50,17 @@ public class ChessGame {
         System.out.println("It is "+colour+"'s turn.");
         boolean valid = false;
         while(!valid){
-            Coordinate startPosition = null;
+            BoardCell startPosition = null;
             while(startPosition==null){
                 System.out.print("Please input your piece's starting co-ordinate: ");
-                startPosition = validateCoordinateInput(scanner.next().toUpperCase());
+                startPosition = createValidBoardCell(scanner.next().toUpperCase());
             }
-            Coordinate endPosition = null;
+            BoardCell endPosition = null;
             while(endPosition==null){
                 System.out.print("Please input your piece's ending co-ordinate: ");
-                endPosition = validateCoordinateInput(scanner.next().toUpperCase());
+                endPosition = createValidBoardCell(scanner.next().toUpperCase());
             }
             valid=chessBoard.movePiece(startPosition, endPosition, colour);
         }
     }
-
-    public static Coordinate validateCoordinateInput(String coordinate) {
-        if(coordinate.matches("[A-H][1-8]")){
-            return new Coordinate(coordinate.charAt(0),coordinate.charAt(1));
-        }
-        System.out.println("The co-ordinate you have input is invalid, please try again. Remember a co-ordinate is comprised of a letter from A-H followed by a number from 1-8.");
-        return null;
-    };
 }

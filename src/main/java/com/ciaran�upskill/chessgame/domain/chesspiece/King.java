@@ -1,8 +1,8 @@
-package com.ciaran.upskill.chessgame.domain;
+package com.ciaran.upskill.chessgame.domain.chesspiece;
 
-import com.ciaran.upskill.chessgame.ChessBoard;
+import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.IllegalMoveException;
-import com.ciaran.upskill.chessgame.UtilClass;
+import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import java.util.ArrayList;
 
@@ -12,24 +12,24 @@ public class King extends ChessPiece {
 
     boolean moved;
 
-    public King(Coordinate coordinate, String colour){
+    public King(BoardCell boardCell, String colour){
         this.type = "king";
-        this.coordinate = coordinate;
+        this.boardCell = boardCell;
         this.colour = colour;
         moved = false;
     }
 
 
     public boolean isInCheck(ChessBoard chessboard) {
-        Coordinate roamingCoordinate = new Coordinate('A', '1');
+        BoardCell roamingBoardCell = new BoardCell('A', '1');
 
         //CheckHorizontal
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         ChessPiece chessPiece = null;
-        roamingCoordinate.moveXAxisDown();
-        while(roamingCoordinate.getXaxis()>0&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        roamingBoardCell.moveXAxisDown();
+        while(roamingBoardCell.getXaxis()>0&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("rook")){
@@ -37,14 +37,14 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisDown();
+            roamingBoardCell.moveXAxisDown();
         }
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveXAxisUp();
-        while(roamingCoordinate.getXaxis()<9&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        roamingBoardCell.moveXAxisUp();
+        while(roamingBoardCell.getXaxis()<9&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("rook")){
@@ -52,16 +52,16 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisUp();
+            roamingBoardCell.moveXAxisUp();
         }
 
         //CheckVertical
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveYAxisDown();
-        while(roamingCoordinate.getYaxis()>0&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        roamingBoardCell.moveYAxisDown();
+        while(roamingBoardCell.getYaxis()>0&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("rook")){
@@ -69,14 +69,14 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveYAxisDown();
+            roamingBoardCell.moveYAxisDown();
         }
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveYAxisUp();
-        while(roamingCoordinate.getYaxis()<9&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        roamingBoardCell.moveYAxisUp();
+        while(roamingBoardCell.getYaxis()<9&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("rook")){
@@ -84,18 +84,18 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveYAxisUp();
+            roamingBoardCell.moveYAxisUp();
         }
         //CheckDiagonals
         //Down&Left
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveXAxisDown();
-        roamingCoordinate.moveYAxisDown();
+        roamingBoardCell.moveXAxisDown();
+        roamingBoardCell.moveYAxisDown();
         int i = 1;
-        while(roamingCoordinate.getXaxis()>0&&roamingCoordinate.getYaxis()>0&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        while(roamingBoardCell.getXaxis()>0&& roamingBoardCell.getYaxis()>0&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("bishop")){
@@ -111,19 +111,19 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisDown();
-            roamingCoordinate.moveYAxisDown();
+            roamingBoardCell.moveXAxisDown();
+            roamingBoardCell.moveYAxisDown();
             i++;
         }
         //Down&&Right
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveXAxisDown();
-        roamingCoordinate.moveYAxisUp();
+        roamingBoardCell.moveXAxisDown();
+        roamingBoardCell.moveYAxisUp();
         i = 1;
-        while(roamingCoordinate.getXaxis()>0&&roamingCoordinate.getYaxis()<9&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        while(roamingBoardCell.getXaxis()>0&& roamingBoardCell.getYaxis()<9&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("bishop")){
@@ -139,19 +139,19 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisDown();
-            roamingCoordinate.moveYAxisUp();
+            roamingBoardCell.moveXAxisDown();
+            roamingBoardCell.moveYAxisUp();
             i++;
         }
         //Up&Left
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveXAxisUp();
-        roamingCoordinate.moveYAxisDown();
+        roamingBoardCell.moveXAxisUp();
+        roamingBoardCell.moveYAxisDown();
         i = 1;
-        while(roamingCoordinate.getXaxis()<9&&roamingCoordinate.getYaxis()>0&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        while(roamingBoardCell.getXaxis()<9&& roamingBoardCell.getYaxis()>0&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("bishop")){
@@ -167,19 +167,19 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisUp();
-            roamingCoordinate.moveYAxisDown();
+            roamingBoardCell.moveXAxisUp();
+            roamingBoardCell.moveYAxisDown();
             i++;
         }
         //Up&Right
-        roamingCoordinate.setXaxis(this.getCoordinate().getXaxis());
-        roamingCoordinate.setYaxis(this.getCoordinate().getYaxis());
+        roamingBoardCell.setXaxis(this.getBoardCell().getXaxis());
+        roamingBoardCell.setYaxis(this.getBoardCell().getYaxis());
         chessPiece = null;
-        roamingCoordinate.moveXAxisUp();
-        roamingCoordinate.moveYAxisUp();
+        roamingBoardCell.moveXAxisUp();
+        roamingBoardCell.moveYAxisUp();
         i = 1;
-        while(roamingCoordinate.getXaxis()<9&&roamingCoordinate.getYaxis()<9&&chessPiece==null){
-            chessPiece = chessboard.getPieceByLocation(roamingCoordinate);
+        while(roamingBoardCell.getXaxis()<9&& roamingBoardCell.getYaxis()<9&&chessPiece==null){
+            chessPiece = chessboard.getPieceByLocation(roamingBoardCell);
             if (chessPiece != null){
                 if(!chessPiece.getColour().matches(colour)){
                     if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("bishop")){
@@ -195,22 +195,22 @@ public class King extends ChessPiece {
                     }
                 }
             }
-            roamingCoordinate.moveXAxisUp();
-            roamingCoordinate.moveYAxisUp();
+            roamingBoardCell.moveXAxisUp();
+            roamingBoardCell.moveYAxisUp();
             i++;
         }
         //CheckForKnights
-        ArrayList<Coordinate> coordinateArrayList = new ArrayList<Coordinate>();
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()+1,this.coordinate.getYaxis()+2));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()+1,this.coordinate.getYaxis()-2));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()-1,this.coordinate.getYaxis()+2));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()-1,this.coordinate.getYaxis()-2));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()+2,this.coordinate.getYaxis()+1));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()+2,this.coordinate.getYaxis()-1));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()-2,this.coordinate.getYaxis()+1));
-        coordinateArrayList.add(new Coordinate(this.coordinate.getXaxis()-2,this.coordinate.getYaxis()-1));
-        for (Coordinate coordinate : coordinateArrayList){
-            chessPiece = chessboard.getPieceByLocation(coordinate);
+        ArrayList<BoardCell> boardCellArrayList = new ArrayList<BoardCell>();
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()+1,this.boardCell.getYaxis()+2));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()+1,this.boardCell.getYaxis()-2));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()-1,this.boardCell.getYaxis()+2));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()-1,this.boardCell.getYaxis()-2));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()+2,this.boardCell.getYaxis()+1));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()+2,this.boardCell.getYaxis()-1));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()-2,this.boardCell.getYaxis()+1));
+        boardCellArrayList.add(new BoardCell(this.boardCell.getXaxis()-2,this.boardCell.getYaxis()-1));
+        for (BoardCell boardCell : boardCellArrayList){
+            chessPiece = chessboard.getPieceByLocation(boardCell);
             if(chessPiece!=null){
                 if(!chessPiece.getColour().matches(colour)) {
                     if (chessPiece.getType().matches("knight")) {
@@ -222,21 +222,21 @@ public class King extends ChessPiece {
         return false;
     }
 
-    public boolean validateMove(ChessBoard chessBoard, Coordinate finishPosition) {
-        int xAxisDiff = finishPosition.getXaxis()-coordinate.getXaxis();
-        int yAxisDiff = finishPosition.getYaxis()-coordinate.getYaxis();
+    public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
+        int xAxisDiff = finishPosition.getXaxis()- boardCell.getXaxis();
+        int yAxisDiff = finishPosition.getYaxis()- boardCell.getYaxis();
         //Validates Castling
         if (modulo(xAxisDiff)==2){
             if (modulo(yAxisDiff)>0||moved){
                 return false;
             }
-            Coordinate rookCoordinate = new Coordinate(0, coordinate.getYaxis());
+            BoardCell rookBoardCell = new BoardCell(0, boardCell.getYaxis());
             if(xAxisDiff>0){
-                rookCoordinate.setXaxis(8);
+                rookBoardCell.setXaxis(8);
             } else {
-                rookCoordinate.setXaxis(1);
+                rookBoardCell.setXaxis(1);
             }
-            ChessPiece chessPiece = chessBoard.getPieceByLocation(rookCoordinate);
+            ChessPiece chessPiece = chessBoard.getPieceByLocation(rookBoardCell);
             if (!chessPiece.getType().matches("rook")){
                 return false;
             }
@@ -244,17 +244,17 @@ public class King extends ChessPiece {
             if (rook.hasMoved()){
                 return false;
             }
-            Coordinate roamingCoordinate = new Coordinate(coordinate.getXaxis(), coordinate.getYaxis());
-            while(!roamingCoordinate.equals(rookCoordinate)){
-                if(!roamingCoordinate.equals(coordinate)){
-                    if (chessBoard.getPieceByLocation(roamingCoordinate)!=null){
+            BoardCell roamingBoardCell = new BoardCell(boardCell.getXaxis(), boardCell.getYaxis());
+            while(!roamingBoardCell.equals(rookBoardCell)){
+                if(!roamingBoardCell.equals(boardCell)){
+                    if (chessBoard.getPieceByLocation(roamingBoardCell)!=null){
                         return false;
                     }
                 }
                 if (xAxisDiff>0){
-                    roamingCoordinate.moveXAxisUp();
+                    roamingBoardCell.moveXAxisUp();
                 } else {
-                    roamingCoordinate.moveXAxisDown();
+                    roamingBoardCell.moveXAxisDown();
                 }
             }
 
@@ -269,41 +269,41 @@ public class King extends ChessPiece {
     }
 
 
-    public ChessPiece movePiece(ChessBoard chessBoard, Coordinate finishPosition) throws IllegalMoveException {
+    public ChessPiece movePiece(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException {
         if (!validateMove(chessBoard,finishPosition)){
             throw new IllegalMoveException();
         };
-        int xAxisDiff = finishPosition.getXaxis() - coordinate.getXaxis();
+        int xAxisDiff = finishPosition.getXaxis() - boardCell.getXaxis();
         ChessPiece removedPiece = null;
         if (modulo(xAxisDiff)==2){
-            int rookXaxis = (xAxisDiff/modulo(xAxisDiff))+coordinate.getXaxis();
+            int rookXaxis = (xAxisDiff/modulo(xAxisDiff))+ boardCell.getXaxis();
             for(int i = 0; i<2;i++) {
                 if (xAxisDiff > 0) {
-                    coordinate.moveXAxisUp();
+                    boardCell.moveXAxisUp();
                     if (isInCheck(chessBoard)) {
                         throw new IllegalMoveException();
                     }
                 } else {
-                    coordinate.moveXAxisDown();
+                    boardCell.moveXAxisDown();
                     if (isInCheck(chessBoard)) {
                         throw new IllegalMoveException();
                     }
                 }
             }
-            Coordinate rookCoordinate = new Coordinate(0, coordinate.getYaxis());
+            BoardCell rookBoardCell = new BoardCell(0, boardCell.getYaxis());
             if(xAxisDiff>0){
-                rookCoordinate.setXaxis(8);
+                rookBoardCell.setXaxis(8);
             } else {
-                rookCoordinate.setXaxis(1);
+                rookBoardCell.setXaxis(1);
             }
-            chessBoard.getPieceByLocation(rookCoordinate).coordinate = new Coordinate(rookXaxis, coordinate.getYaxis());
+            chessBoard.getPieceByLocation(rookBoardCell).boardCell = new BoardCell(rookXaxis, boardCell.getYaxis());
 
         }else {
             removedPiece = chessBoard.getPieceByLocation(finishPosition);
             if(removedPiece!=null){
                 chessBoard.removePiece(removedPiece);
             }
-            coordinate = finishPosition;
+            boardCell = finishPosition;
         }
         moved = true;
         return removedPiece;
