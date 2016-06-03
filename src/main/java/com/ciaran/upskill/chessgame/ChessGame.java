@@ -13,12 +13,12 @@ public class ChessGame {
     private static ChessBoard chessBoard = new ChessBoard();
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void Main(String[] args){
+    public static void main(String[] args){
         newGame();
     }
 
     private static void newGame() {
-        chessBoard.newGame();
+        chessBoard.setUpBoard();
         boolean checkMate = false;
         String colour = "white";
         while (!checkMate) {

@@ -48,7 +48,7 @@ public class Rook extends ChessPiece {
     }
 
 
-    public ChessPiece movePiece(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException {
+    public ChessPiece move(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException {
         if (!validateMove(chessBoard,finishPosition)){
             throw new IllegalMoveException();
         };

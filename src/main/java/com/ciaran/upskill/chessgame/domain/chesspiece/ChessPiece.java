@@ -36,5 +36,5 @@ public abstract class ChessPiece {
 
     public abstract boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition);
 
-    public abstract ChessPiece movePiece(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException;
+    public abstract ChessPiece move(ChessBoard chessBoard, BoardCell finishPosition) throws IllegalMoveException;
 }
