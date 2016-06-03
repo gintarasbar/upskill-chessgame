@@ -43,7 +43,7 @@ public class RookTest {
     public void test_move_piece_updates_piece_and_board(){
         BoardCell finish = new BoardCell(4,4);
         try {
-            chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class RookTest {
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
-            removedPiece = chessPiece.movePiece(chessBoard, finish);
+            removedPiece = chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }

@@ -88,7 +88,7 @@ public class KingTest {
     public void test_move_piece_updates_piece_and_board(){
         BoardCell finish = new BoardCell(4,2);
         try {
-            chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class KingTest {
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
-            removedPiece = chessPiece.movePiece(chessBoard, finish);
+            removedPiece = chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -119,7 +119,7 @@ public class KingTest {
         ChessPiece rook = new Rook(new BoardCell(1,1),"black");
         chessBoard.addPiece(rook);
         try {
-            chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }

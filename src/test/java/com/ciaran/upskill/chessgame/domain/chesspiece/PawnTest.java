@@ -71,7 +71,7 @@ public class PawnTest {
     public void test_move_piece_updates_piece_and_board(){
         BoardCell finish = new BoardCell(2,3);
         try {
-            chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class PawnTest {
     public void test_move_piece_updates_piece_and_board_when_moving_two_spaces(){
         BoardCell finish = new BoardCell(2,4);
         try {
-            chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -98,7 +98,7 @@ public class PawnTest {
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
-            removedPiece = chessPiece.movePiece(chessBoard, finish);
+            removedPiece = chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
@@ -115,9 +115,9 @@ public class PawnTest {
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
-            chessPiece.movePiece(chessBoard, new BoardCell(2,4));
-            chessPiece.movePiece(chessBoard, new BoardCell(2,5));
-            removedPiece = chessPiece.movePiece(chessBoard, finish);
+            chessPiece.move(chessBoard, new BoardCell(2,4));
+            chessPiece.move(chessBoard, new BoardCell(2,5));
+            removedPiece = chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
