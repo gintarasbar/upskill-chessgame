@@ -5,6 +5,8 @@ import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+
 public class Rook extends ChessPiece {
 
     private  boolean moved;
@@ -20,7 +22,7 @@ public class Rook extends ChessPiece {
     public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
         int xAxisDiff = finishPosition.getXaxis()- boardCell.getXaxis();
         int yAxisDiff = finishPosition.getYaxis()- boardCell.getYaxis();
-        if (UtilClass.modulo(xAxisDiff)>0&&UtilClass.modulo(yAxisDiff)>0){
+        if (modulo(xAxisDiff)>0&& modulo(yAxisDiff)>0){
             System.out.println("Rook must move along only 1 axis");
             return false;
         }
@@ -33,15 +35,10 @@ public class Rook extends ChessPiece {
                     return false;
                 }
             }
-            if (xAxisDiff>0){
-                roamingBoardCell.moveXAxisUp();
-            } else if (xAxisDiff<0) {
-                roamingBoardCell.moveXAxisDown();
-            }
-            if (yAxisDiff>0){
-                roamingBoardCell.moveYAxisUp();
-            } else if (yAxisDiff<0){
-                roamingBoardCell.moveYAxisDown();
+            if(xAxisDiff==0){
+                roamingBoardCell.increment(0,yAxisDiff/modulo(yAxisDiff));
+            } else {
+                roamingBoardCell.increment(xAxisDiff/modulo(xAxisDiff),0);
             }
         }
         return true;

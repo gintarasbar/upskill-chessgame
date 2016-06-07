@@ -5,6 +5,8 @@ import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+
 public class Queen extends ChessPiece {
 
     public Queen(BoardCell boardCell, String colour){
@@ -17,7 +19,7 @@ public class Queen extends ChessPiece {
     public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
         int xAxisDiff = finishPosition.getXaxis()- boardCell.getXaxis();
         int yAxisDiff = finishPosition.getYaxis()- boardCell.getYaxis();
-        if (UtilClass.modulo(xAxisDiff)==UtilClass.modulo(yAxisDiff)||xAxisDiff==0||yAxisDiff==0){
+        if (modulo(xAxisDiff)== modulo(yAxisDiff)||xAxisDiff==0||yAxisDiff==0){
             BoardCell roamingBoardCell = new BoardCell('A', '1');
             roamingBoardCell.setXaxis(boardCell.getXaxis());
             roamingBoardCell.setYaxis(boardCell.getYaxis());
@@ -27,16 +29,7 @@ public class Queen extends ChessPiece {
                         return false;
                     }
                 }
-                if (xAxisDiff>0){
-                    roamingBoardCell.moveXAxisUp();
-                } else if (xAxisDiff<0){
-                    roamingBoardCell.moveXAxisDown();
-                }
-                if (yAxisDiff>0){
-                    roamingBoardCell.moveYAxisUp();
-                } else if (yAxisDiff<0){
-                    roamingBoardCell.moveYAxisDown();
-                }
+                roamingBoardCell.increment(xAxisDiff/modulo(xAxisDiff), yAxisDiff/modulo(yAxisDiff));
             }
             return true;
 

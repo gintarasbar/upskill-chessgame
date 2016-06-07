@@ -49,9 +49,9 @@ public class ChessGame {
         //is King in check
         King king = chessBoard.getKing(colour);
         BoardCell kingcell = king.getBoardCell();
-        ArrayList<ChessPiece> pieceThreateningKing = chessBoard.findPiecesOneMoveAway(king.getBoardCell(), king.getColour());
+        ArrayList<ChessPiece> piecesThreateningKing = chessBoard.findPiecesOneMoveAway(king.getBoardCell(), king.getColour());
         String opposingColour = switchColour(king.getColour());
-        if (pieceThreateningKing.isEmpty()){
+        if (piecesThreateningKing.isEmpty()){
             return false;
         }
         //can King move out of check
@@ -76,35 +76,33 @@ public class ChessGame {
             }
         }
         //can A Piece block check
-        if (pieceThreateningKing.size()==1){
-            ChessPiece chessPiece = pieceThreateningKing.get(0);
-            if(!chessPiece.getType().matches("knight")){
-                int xAxisDiff = king.getBoardCell().getXaxis()-chessPiece.getBoardCell().getXaxis();
-                int yAxisDiff = king.getBoardCell().getYaxis()-chessPiece.getBoardCell().getYaxis();
+        if (piecesThreateningKing.size()==1){
+            ChessPiece chessPieceForcingCheck = piecesThreateningKing.get(0);
+            if(!chessPieceForcingCheck.getType().matches("knight")){
+                int xAxisDiff = king.getBoardCell().getXaxis()-chessPieceForcingCheck.getBoardCell().getXaxis();
+                int yAxisDiff = king.getBoardCell().getYaxis()-chessPieceForcingCheck.getBoardCell().getYaxis();
                 int xModifier = modulo(xAxisDiff)/xAxisDiff;
                 int yModifier = modulo(yAxisDiff)/yAxisDiff;
                 BoardCell roamingBoardCell = new BoardCell(kingcell.getXaxis(), kingcell.getYaxis());
-                while (!roamingBoardCell.equals(chessPiece.getBoardCell())){
+                while (!roamingBoardCell.equals(chessPieceForcingCheck.getBoardCell())){
                     roamingBoardCell.increment(xModifier, yModifier);
                     ArrayList<ChessPiece> piecesToSaveKing = chessBoard.findPiecesOneMoveAway(roamingBoardCell, opposingColour);
                     if(piecesToSaveKing.size()>0){
                         for (ChessPiece savingPiece : piecesToSaveKing){
-                            //TODO replace any pieces taken
                             BoardCell initialPosition = savingPiece.getBoardCell();
                             try {
                                 savingPiece.move(chessBoard, roamingBoardCell);
+                                boolean inCheck = king.isInCheck(chessBoard);
+                                savingPiece.move(chessBoard, initialPosition);
+                                if (roamingBoardCell.equals(chessPieceForcingCheck.getBoardCell())){
+                                    chessBoard.addPiece(chessPieceForcingCheck);
+                                }
+                                if (!inCheck){
+                                    return false;
+                                }
                             } catch (IllegalMoveException e) {
                                 e.printStackTrace();
                                 break;
-                            }
-                            boolean inCheck = king.isInCheck(chessBoard);
-                            try {
-                                savingPiece.move(chessBoard, initialPosition);
-                            } catch (IllegalMoveException e) {
-                                e.printStackTrace();
-                            }
-                            if (!inCheck){
-                                return false;
                             }
 
                         }

@@ -5,6 +5,8 @@ import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+
 public class Bishop extends ChessPiece {
 
     public Bishop(BoardCell boardCell, String colour){
@@ -16,7 +18,7 @@ public class Bishop extends ChessPiece {
     public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
         int xAxisDiff = finishPosition.getXaxis()- boardCell.getXaxis();
         int yAxisDiff = finishPosition.getYaxis()- boardCell.getYaxis();
-        if (UtilClass.modulo(xAxisDiff)!=UtilClass.modulo(yAxisDiff)){
+        if (modulo(xAxisDiff)!= modulo(yAxisDiff)){
             System.out.println("Bishop must move in a diagonal direction");
             return false;
         }
@@ -29,16 +31,7 @@ public class Bishop extends ChessPiece {
                     return false;
                 }
             }
-            if (xAxisDiff>0){
-                roamingBoardCell.moveXAxisUp();
-            } else {
-                roamingBoardCell.moveXAxisDown();
-            }
-            if (yAxisDiff>0){
-                roamingBoardCell.moveYAxisUp();
-            } else {
-                roamingBoardCell.moveYAxisDown();
-            }
+           roamingBoardCell.increment(xAxisDiff/modulo(xAxisDiff), yAxisDiff/modulo(yAxisDiff));
         }
         return true;
     }

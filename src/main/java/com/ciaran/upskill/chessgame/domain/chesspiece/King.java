@@ -54,11 +54,7 @@ public class King extends ChessPiece {
                         return false;
                     }
                 }
-                if (xAxisDiff>0){
-                    roamingBoardCell.moveXAxisUp();
-                } else {
-                    roamingBoardCell.moveXAxisDown();
-                }
+                roamingBoardCell.increment(xAxisDiff/modulo(xAxisDiff), 0);
             }
 
         } else if (modulo(xAxisDiff)>1||modulo(yAxisDiff)>1){
@@ -81,17 +77,10 @@ public class King extends ChessPiece {
         if (modulo(xAxisDiff)==2){
             int rookXaxis = (xAxisDiff/modulo(xAxisDiff))+ boardCell.getXaxis();
             for(int i = 0; i<2;i++) {
-                if (xAxisDiff > 0) {
-                    boardCell.moveXAxisUp();
-                    if (isInCheck(chessBoard)) {
+                boardCell.increment(xAxisDiff/modulo(xAxisDiff), 0);
+                if (isInCheck(chessBoard)) {
                         throw new IllegalMoveException();
                     }
-                } else {
-                    boardCell.moveXAxisDown();
-                    if (isInCheck(chessBoard)) {
-                        throw new IllegalMoveException();
-                    }
-                }
             }
             BoardCell rookBoardCell = new BoardCell(0, boardCell.getYaxis());
             if(xAxisDiff>0){
