@@ -91,4 +91,16 @@ public class BoardCell {
         return yaxis == that.yaxis;
 
     }
+
+    public void increment(int xModifier, int yModifier) {
+        xaxis = xaxis+xModifier;
+        yaxis = yaxis+yModifier;
+    }
+
+    public boolean isValid() {
+        if(xaxis<1||xaxis>8||yaxis<1||yaxis>8){
+            return false;
+        }
+        return true;
+    }
 }
