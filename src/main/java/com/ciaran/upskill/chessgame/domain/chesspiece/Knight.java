@@ -1,7 +1,7 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
-import com.ciaran.upskill.chessgame.IllegalMoveException;
+import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
