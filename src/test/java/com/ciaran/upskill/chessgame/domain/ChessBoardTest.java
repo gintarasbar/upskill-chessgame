@@ -1,12 +1,18 @@
 package com.ciaran.upskill.chessgame.domain;
 
+import com.ciaran.upskill.chessgame.domain.chesspiece.Bishop;
 import com.ciaran.upskill.chessgame.domain.chesspiece.ChessPiece;
 import com.ciaran.upskill.chessgame.domain.chesspiece.King;
+import com.ciaran.upskill.chessgame.domain.chesspiece.Knight;
 import com.ciaran.upskill.chessgame.domain.chesspiece.Pawn;
+import com.ciaran.upskill.chessgame.domain.chesspiece.Queen;
 import com.ciaran.upskill.chessgame.domain.chesspiece.Rook;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -101,5 +107,140 @@ public class ChessBoardTest {
         chessBoard.addPiece(new Rook(new BoardCell(4,3), "black"));
         chessBoard.movePiece(new BoardCell(5,2),new BoardCell(4,3), "white");
     }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_rooks_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new Rook(new BoardCell(1,4), "black"));
+        chessBoard.addPiece(new Rook(new BoardCell(6,4), "black"));
+        chessBoard.addPiece(new Rook(new BoardCell(4,2), "black"));
+        chessBoard.addPiece(new Rook(new BoardCell(4,8), "black"));
+        chessBoard.addPiece(new Rook(new BoardCell(7,7), "black")); //Diagonal
+        chessBoard.addPiece(new Rook(new BoardCell(5,6), "black")); //Knight
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==4);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="rook");
+            assertTrue(chessPiece.getBoardCell().getXaxis()==4||chessPiece.getBoardCell().getYaxis()==4);
+        }
+    }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_queen_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new Queen(new BoardCell(1,4), "black"));
+        chessBoard.addPiece(new Queen(new BoardCell(6,4), "black"));
+        chessBoard.addPiece(new Queen(new BoardCell(4,2), "black"));
+        chessBoard.addPiece(new Queen(new BoardCell(4,8), "black"));
+        chessBoard.addPiece(new Queen(new BoardCell(7,7), "black")); //Diagonal
+        chessBoard.addPiece(new Queen(new BoardCell(2,2), "black")); //Diagonal
+        chessBoard.addPiece(new Queen(new BoardCell(2,6), "black")); //Diagonal
+        chessBoard.addPiece(new Queen(new BoardCell(5,3), "black")); //Diagonal
+        chessBoard.addPiece(new Queen(new BoardCell(5,6), "black")); //Knight
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==8);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="queen");
+            int xAxisDiff = modulo(chessPiece.getBoardCell().getXaxis() - 4);
+            int yAxisDiff = modulo(chessPiece.getBoardCell().getYaxis() - 4);
+            assertTrue(xAxisDiff==yAxisDiff||(yAxisDiff==0&&xAxisDiff!=0)||(xAxisDiff==0&&yAxisDiff!=0));
+        }
+    }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_bishop_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new Bishop(new BoardCell(4,8), "black")); //Horizontal&Vertical
+        chessBoard.addPiece(new Bishop(new BoardCell(7,7), "black"));
+        chessBoard.addPiece(new Bishop(new BoardCell(2,2), "black"));
+        chessBoard.addPiece(new Bishop(new BoardCell(2,6), "black"));
+        chessBoard.addPiece(new Bishop(new BoardCell(5,3), "black"));
+        chessBoard.addPiece(new Bishop(new BoardCell(5,6), "black")); //Knight
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==4);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="bishop");
+            int xAxisDiff = modulo(chessPiece.getBoardCell().getXaxis() - 4);
+            int yAxisDiff = modulo(chessPiece.getBoardCell().getYaxis() - 4);
+            assertTrue(xAxisDiff==yAxisDiff);
+        }
+    }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_knight_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new Knight(new BoardCell(4,8), "black")); //Horizontal&Vertical
+        chessBoard.addPiece(new Knight(new BoardCell(7,7), "black")); //Diagonal
+        chessBoard.addPiece(new Knight(new BoardCell(5,6), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(6,5), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(3,6), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(6,3), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(5,2), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(2,5), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(3,2), "black")); //Knight
+        chessBoard.addPiece(new Knight(new BoardCell(2,3), "black")); //Knight
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==8);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="knight");
+            int xAxisDiff = modulo(chessPiece.getBoardCell().getXaxis() - 4);
+            int yAxisDiff = modulo(chessPiece.getBoardCell().getYaxis() - 4);
+            assertTrue((xAxisDiff==1&&yAxisDiff==2)||(yAxisDiff==1&&xAxisDiff==2));
+        }
+    }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_pawns_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new Pawn(new BoardCell(4,8), "black", "up")); //Horizontal&Vertical
+        chessBoard.addPiece(new Pawn(new BoardCell(7,7), "black", "up")); //Diagonal
+        chessBoard.addPiece(new Pawn(new BoardCell(5,6), "black", "up")); //Knight
+        chessBoard.addPiece(new Pawn(new BoardCell(5,5), "black", "down"));
+        chessBoard.addPiece(new Pawn(new BoardCell(5,3), "black", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(3,5), "black", "down"));
+        chessBoard.addPiece(new Pawn(new BoardCell(3,3), "black", "up"));
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==4);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="pawn");
+            int xAxisDiff = modulo(chessPiece.getBoardCell().getXaxis() - 4);
+            int yAxisDiff = modulo(chessPiece.getBoardCell().getYaxis() - 4);
+            assertTrue(xAxisDiff==1&&yAxisDiff==1);
+        }
+    }
+
+    @Test
+    public void test_findPiecesOneMoveAway_finds_king_in_all_relevant_directions(){
+        chessBoard = new ChessBoard();
+        BoardCell boardcell = new BoardCell(4,4);
+        chessBoard.addPiece(new King(new BoardCell(4,8), "black")); //Horizontal&Vertical
+        chessBoard.addPiece(new King(new BoardCell(7,7), "black")); //Diagonal
+        chessBoard.addPiece(new King(new BoardCell(5,6), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(5,3), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(5,4), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(5,5), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(4,3), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(4,5), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(3,3), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(3,4), "black")); //Knight
+        chessBoard.addPiece(new King(new BoardCell(3,5), "black")); //Knight
+        ArrayList<ChessPiece> piecesOneMoveAway = chessBoard.findPiecesOneMoveAway(boardcell, "white");
+        assertTrue(piecesOneMoveAway.size()==8);
+        for (ChessPiece chessPiece : piecesOneMoveAway){
+            assertTrue(chessPiece.getType()=="king");
+            int xAxisDiff = modulo(chessPiece.getBoardCell().getXaxis() - 4);
+            int yAxisDiff = modulo(chessPiece.getBoardCell().getYaxis() - 4);
+            assertTrue(xAxisDiff<2&&yAxisDiff<2);
+        }
+    }
+
+
+
+
 
 }
