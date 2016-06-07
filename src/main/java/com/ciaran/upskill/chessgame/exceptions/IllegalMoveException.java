@@ -1,4 +1,4 @@
-package com.ciaran.upskill.chessgame;
+package com.ciaran.upskill.chessgame.exceptions;
 
 public class IllegalMoveException extends Exception {
 }
