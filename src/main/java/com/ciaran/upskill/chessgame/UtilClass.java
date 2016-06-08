@@ -10,4 +10,18 @@ public class UtilClass {
         return modulo;
     }
 
+    public static String switchColour(String colour) {
+        if (colour==null){
+            return null;
+        }
+        if (colour.matches("Black")) {
+            return "White";
+        } else if (colour.matches("White")){
+            return "Black";
+        }
+        return null;
+
+
+    }
+
 }

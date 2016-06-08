@@ -12,7 +12,7 @@ public class Rook extends ChessPiece {
     private  boolean moved;
 
     public Rook (BoardCell boardCell, String colour){
-        this.type = "rook";
+        this.type = "Rook";
         this.boardCell = boardCell;
         this.colour = colour;
         moved = false;

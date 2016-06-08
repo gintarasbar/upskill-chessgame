@@ -11,6 +11,9 @@ import com.ciaran.upskill.chessgame.domain.chesspiece.Rook;
 
 import java.util.ArrayList;
 
+import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+import static com.ciaran.upskill.chessgame.UtilClass.switchColour;
+
 public class ChessBoard {
 
     private ArrayList<ChessPiece> piecesOnBoard;
@@ -21,38 +24,38 @@ public class ChessBoard {
     }
 
     public void setUpBoard(){
-        piecesOnBoard.add(new Pawn(new BoardCell(1,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(2,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(3,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(4,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(5,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(6,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(7,2), "white", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(8,2), "white", "up"));
-        piecesOnBoard.add(new Rook(new BoardCell(1,1), "white"));
-        piecesOnBoard.add(new Rook(new BoardCell(8,1), "white"));
-        piecesOnBoard.add(new Knight(new BoardCell(2,1), "white"));
-        piecesOnBoard.add(new Knight(new BoardCell(7,1), "white"));
-        piecesOnBoard.add(new Bishop(new BoardCell(3,1), "white"));
-        piecesOnBoard.add(new Bishop(new BoardCell(6,1), "white"));
-        piecesOnBoard.add(new King(new BoardCell(5,1), "white"));
-        piecesOnBoard.add(new Queen(new BoardCell(4,1), "white"));
-        piecesOnBoard.add(new Pawn(new BoardCell(1,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(2,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(3,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(4,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(5,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(6,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(7,7), "black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(8,7), "black", "down"));
-        piecesOnBoard.add(new Rook(new BoardCell(1,8), "black"));
-        piecesOnBoard.add(new Rook(new BoardCell(8,8), "black"));
-        piecesOnBoard.add(new Knight(new BoardCell(2,8), "black"));
-        piecesOnBoard.add(new Knight(new BoardCell(7,8), "black"));
-        piecesOnBoard.add(new Bishop(new BoardCell(3,8), "black"));
-        piecesOnBoard.add(new Bishop(new BoardCell(6,8), "black"));
-        piecesOnBoard.add(new King(new BoardCell(5,8), "black"));
-        piecesOnBoard.add(new Queen(new BoardCell(4,8), "black"));
+        piecesOnBoard.add(new Pawn(new BoardCell(1,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(2,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(3,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(4,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(5,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(6,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(7,2), "White", "up"));
+        piecesOnBoard.add(new Pawn(new BoardCell(8,2), "White", "up"));
+        piecesOnBoard.add(new Rook(new BoardCell(1,1), "White"));
+        piecesOnBoard.add(new Rook(new BoardCell(8,1), "White"));
+        piecesOnBoard.add(new Knight(new BoardCell(2,1), "White"));
+        piecesOnBoard.add(new Knight(new BoardCell(7,1), "White"));
+        piecesOnBoard.add(new Bishop(new BoardCell(3,1), "White"));
+        piecesOnBoard.add(new Bishop(new BoardCell(6,1), "White"));
+        piecesOnBoard.add(new King(new BoardCell(5,1), "White"));
+        piecesOnBoard.add(new Queen(new BoardCell(4,1), "White"));
+        piecesOnBoard.add(new Pawn(new BoardCell(1,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(2,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(3,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(4,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(5,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(6,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(7,7), "Black", "down"));
+        piecesOnBoard.add(new Pawn(new BoardCell(8,7), "Black", "down"));
+        piecesOnBoard.add(new Rook(new BoardCell(1,8), "Black"));
+        piecesOnBoard.add(new Rook(new BoardCell(8,8), "Black"));
+        piecesOnBoard.add(new Knight(new BoardCell(2,8), "Black"));
+        piecesOnBoard.add(new Knight(new BoardCell(7,8), "Black"));
+        piecesOnBoard.add(new Bishop(new BoardCell(3,8), "Black"));
+        piecesOnBoard.add(new Bishop(new BoardCell(6,8), "Black"));
+        piecesOnBoard.add(new King(new BoardCell(5,8), "Black"));
+        piecesOnBoard.add(new Queen(new BoardCell(4,8), "Black"));
     }
 
     public ChessPiece getPieceByLocation(BoardCell boardCell){
@@ -76,7 +79,7 @@ public class ChessBoard {
             return false;
         }
         ChessPiece removedPiece = getPieceByLocation(finishPosition);
-        if (removedPiece!= null ? removedPiece.getColour().matches(colour) : false)return false;
+        if (removedPiece!= null ? removedPiece.getColour().matches(colour) : false) return false;
         try {
             removedPiece = chessPiece.move(this, finishPosition);
         } catch (IllegalMoveException e) {
@@ -130,11 +133,11 @@ public class ChessBoard {
                 chessPiece = this.getPieceByLocation(roamingBoardCell);
                 if (chessPiece != null){
                     if(!chessPiece.getColour().matches(colour)){
-                        if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("rook")){
+                        if(chessPiece.getType().matches("Queen")||chessPiece.getType().matches("Rook")){
                             piecesOneMoveAway.add(chessPiece);
                         }
                         if(j==1){
-                            if (chessPiece.getType().matches("king")){
+                            if (chessPiece.getType().matches("King")){
                                 piecesOneMoveAway.add(chessPiece);
                             }
                         }
@@ -177,16 +180,16 @@ public class ChessBoard {
                 chessPiece = this.getPieceByLocation(roamingBoardCell);
                 if (chessPiece != null){
                     if(!chessPiece.getColour().matches(colour)){
-                        if(chessPiece.getType().matches("queen")||chessPiece.getType().matches("bishop")){
+                        if(chessPiece.getType().matches("Queen")||chessPiece.getType().matches("Bishop")){
                             piecesOneMoveAway.add(chessPiece);
                         }
                         if(j==1){
-                            if(chessPiece.getType().matches("pawn")) {
+                            if(chessPiece.getType().matches("Pawn")) {
                                 Pawn pawn = (Pawn) chessPiece;
                                 if (pawn.getDirection().matches(direction)){
                                     piecesOneMoveAway.add(chessPiece);
                                 }
-                            } else if (chessPiece.getType().matches("king")){
+                            } else if (chessPiece.getType().matches("King")){
                                 piecesOneMoveAway.add(chessPiece);
                             }
                         }
@@ -213,7 +216,7 @@ public class ChessBoard {
             }
             if(chessPiece!=null){
                 if(!chessPiece.getColour().matches(colour)) {
-                    if (chessPiece.getType().matches("knight")) {
+                    if (chessPiece.getType().matches("Knight")) {
                         piecesOneMoveAway.add(chessPiece);
                     }
                 }
@@ -224,7 +227,7 @@ public class ChessBoard {
 
     public King getKing(String colour) {
         for(ChessPiece chesspiece : piecesOnBoard){
-            if (chesspiece.getType().matches("king")){
+            if (chesspiece.getType().matches("King")){
                 if(chesspiece.getColour().matches(colour)){
                     return (King) chesspiece;
                 }
@@ -232,6 +235,82 @@ public class ChessBoard {
             }
         }
         return null;
+    }
+
+    public boolean isInCheckMate(String colour) {
+        //is King in check
+        King king = getKing(colour);
+        BoardCell kingcell = king.getBoardCell();
+        ArrayList<ChessPiece> piecesThreateningKing = findPiecesOneMoveAway(king.getBoardCell(), king.getColour());
+        String opposingColour = switchColour(king.getColour());
+        if (piecesThreateningKing.isEmpty()){
+            return false;
+        }
+        //can King move out of check
+        ArrayList<BoardCell> kingsMoves = new ArrayList<BoardCell>();
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()+1,kingcell.getYaxis()+1));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()+1,kingcell.getYaxis()));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()+1,kingcell.getYaxis()-1));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis(),kingcell.getYaxis()+1));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis(),kingcell.getYaxis()-1));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()-1,kingcell.getYaxis()+1));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()-1,kingcell.getYaxis()));
+        kingsMoves.add(new BoardCell(kingcell.getXaxis()-1,kingcell.getYaxis()-1));
+        removePiece(king);
+        for (BoardCell kingsMoveCell : kingsMoves){
+            if(kingsMoveCell.isValid()) {
+                ChessPiece chessPiece = getPieceByLocation(kingsMoveCell);
+                if(chessPiece!= null ? chessPiece.getColour().matches(king.getColour()) : true) {
+                    if (findPiecesOneMoveAway(kingsMoveCell, king.getColour()).isEmpty()) {
+                        addPiece(king);
+                        return false;
+                    }
+                }
+            }
+        }
+        addPiece(king);
+        //can A Piece block check
+        if (piecesThreateningKing.size()==1){
+            ChessPiece chessPieceForcingCheck = piecesThreateningKing.get(0);
+            if(!chessPieceForcingCheck.getType().matches("Knight")){
+                int xAxisDiff = chessPieceForcingCheck.getBoardCell().getXaxis()-king.getBoardCell().getXaxis();
+                int yAxisDiff = chessPieceForcingCheck.getBoardCell().getYaxis()-king.getBoardCell().getYaxis();
+                int xModifier = 0;
+                if(xAxisDiff!=0) {
+                    xModifier = xAxisDiff/modulo(xAxisDiff);
+                }
+                int yModifier = 0;
+                if (yAxisDiff!=0) {
+                    yModifier = yAxisDiff/modulo(yAxisDiff);
+                }
+                BoardCell roamingBoardCell = new BoardCell(kingcell.getXaxis(), kingcell.getYaxis());
+                while (!roamingBoardCell.equals(chessPieceForcingCheck.getBoardCell())){
+                    roamingBoardCell.increment(xModifier, yModifier);
+                    ArrayList<ChessPiece> piecesToSaveKing = findPiecesOneMoveAway(roamingBoardCell, opposingColour);
+                    if(piecesToSaveKing.size()>0){
+                        for (ChessPiece savingPiece : piecesToSaveKing){
+                            BoardCell initialPosition = savingPiece.getBoardCell();
+                            try {
+                                savingPiece.move(this, roamingBoardCell);
+                                boolean inCheck = king.isInCheck(this);
+                                savingPiece.move(this, initialPosition);
+                                if (roamingBoardCell.equals(chessPieceForcingCheck.getBoardCell())){
+                                    addPiece(chessPieceForcingCheck);
+                                }
+                                if (!inCheck){
+                                    return false;
+                                }
+                            } catch (IllegalMoveException e) {
+                                e.printStackTrace();
+                                break;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public boolean removePiece(ChessPiece chesspiece) {

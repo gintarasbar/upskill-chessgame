@@ -10,15 +10,15 @@ public class Pawn extends ChessPiece {
 
     private final BoardCell startPosition;
     private String direction;
-    private boolean moved;
+    private int moved;
 
     public Pawn(BoardCell boardCell, String colour, String direction){
-        this.type = "pawn";
+        this.type = "Pawn";
         this.boardCell = boardCell;
         this.startPosition = boardCell;
         this.colour = colour;
         this.direction = direction;
-        moved = false;
+        moved = 0;
     }
 
     public boolean validateMove(ChessBoard chessBoard, BoardCell finishPosition) {
@@ -39,7 +39,7 @@ public class Pawn extends ChessPiece {
                 ChessPiece chessPiece = chessBoard.getPieceByLocation(finishPosition);
                 finishPosition.setYaxis(yAxis);
                 if(chessPiece!=null){
-                    if (!chessPiece.getType().matches("pawn")){
+                    if (!chessPiece.getType().matches("Pawn")){
                         System.out.println("Illegal - Pawn move");
                         return false;
                     }
@@ -58,7 +58,7 @@ public class Pawn extends ChessPiece {
             return false;
         }
         if (modulo(yAxisDiff)==2) {
-            if (moved) {
+            if (moved>0) {
                 System.out.println("Pawn can't move 2 spaces if it has already moved");
                 return false;
             }

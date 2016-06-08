@@ -10,7 +10,7 @@ import static com.ciaran.upskill.chessgame.UtilClass.modulo;
 public class Queen extends ChessPiece {
 
     public Queen(BoardCell boardCell, String colour){
-        this.type = "queen";
+        this.type = "Queen";
         this.boardCell = boardCell;
         this.colour = colour;
     }

@@ -10,7 +10,7 @@ import static com.ciaran.upskill.chessgame.UtilClass.modulo;
 public class Bishop extends ChessPiece {
 
     public Bishop(BoardCell boardCell, String colour){
-        this.type = "bishop";
+        this.type = "Bishop";
         this.boardCell = boardCell;
         this.colour = colour;
     }

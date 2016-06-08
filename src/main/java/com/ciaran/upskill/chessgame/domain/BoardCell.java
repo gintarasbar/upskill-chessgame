@@ -1,5 +1,7 @@
 package com.ciaran.upskill.chessgame.domain;
 
+import static java.lang.Character.*;
+
 public class BoardCell {
 
     private int xaxis;
@@ -46,7 +48,7 @@ public class BoardCell {
             case 6: return 'F';
             case 7: return 'G';
             case 8: return 'H';
-            default: return Character.MIN_VALUE;
+            default: return MIN_VALUE;
         }
     }
 
@@ -62,22 +64,6 @@ public class BoardCell {
     public void setYaxis(int yaxis) {
         if (yaxis<1||yaxis>8)throw new IllegalArgumentException("Yaxis ranges from 1 to 8");
         this.yaxis = yaxis;
-    }
-
-    public void moveXAxisUp() {
-        xaxis++;
-    }
-
-    public void moveXAxisDown() {
-        xaxis--;
-    }
-
-    public void moveYAxisUp() {
-        yaxis++;
-    }
-
-    public void moveYAxisDown() {
-        yaxis--;
     }
 
     @Override
@@ -102,5 +88,11 @@ public class BoardCell {
             return false;
         }
         return true;
+    }
+
+    public String print() {
+        String xString = String.valueOf(getXaxisChar());
+        String yString = String.valueOf(yaxis);
+        return xString+yString;
     }
 }

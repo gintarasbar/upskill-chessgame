@@ -8,7 +8,7 @@ import com.ciaran.upskill.chessgame.domain.BoardCell;
 public class Knight extends ChessPiece {
 
     public Knight(BoardCell boardCell, String colour){
-        this.type = "knight";
+        this.type = "Knight";
         this.boardCell = boardCell;
         this.colour = colour;
     }

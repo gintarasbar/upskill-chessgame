@@ -11,7 +11,7 @@ public class King extends ChessPiece {
     boolean moved;
 
     public King(BoardCell boardCell, String colour){
-        this.type = "king";
+        this.type = "King";
         this.boardCell = boardCell;
         this.colour = colour;
         moved = false;
@@ -40,7 +40,7 @@ public class King extends ChessPiece {
                 rookBoardCell.setXaxis(1);
             }
             ChessPiece chessPiece = chessBoard.getPieceByLocation(rookBoardCell);
-            if (!chessPiece.getType().matches("rook")){
+            if (!chessPiece.getType().matches("Rook")){
                 return false;
             }
             Rook rook = (Rook) chessPiece;
