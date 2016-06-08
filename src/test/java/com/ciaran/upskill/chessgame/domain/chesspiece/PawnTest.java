@@ -75,7 +75,7 @@ public class PawnTest {
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
-        assertThat(chessBoard.getPieceByLocation(finish).equals(chessPiece), is(false));
+        assertThat(chessBoard.getPieceByLocation(finish), is(equalTo(chessPiece)));
         assertThat(chessBoard.getPieceByLocation(new BoardCell(1,4)), is(equalTo(null)));
     }
 
