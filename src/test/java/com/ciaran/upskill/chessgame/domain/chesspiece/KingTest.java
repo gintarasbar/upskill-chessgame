@@ -6,9 +6,9 @@ import com.ciaran.upskill.chessgame.domain.BoardCell;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class KingTest {
 
@@ -18,70 +18,70 @@ public class KingTest {
     @Before
     public void setup(){
         chessBoard = new ChessBoard();
-        chessPiece = new King(new BoardCell(4, 1),"black");
+        chessPiece = new King(new BoardCell(4, 1),"Black");
         chessBoard.addPiece(chessPiece);
     }
 
 
     @Test
     public void test_validate_move_detects_a_legal_move(){
-        assertTrue(chessPiece.validateMove(chessBoard, new BoardCell(3, 2)));
+        assertThat(chessPiece.validateMove(chessBoard, new BoardCell(3, 2)), is(true));
     }
 
     @Test
     public void test_validate_move_detects_an_illegal_move(){
-        assertFalse(chessPiece.validateMove(chessBoard, new BoardCell(5, 3)));
+        assertThat(chessPiece.validateMove(chessBoard, new BoardCell(5, 3)), is(false));
     }
 
     @Test
     public void test_validate_move_detects_a_valid_king_rook_switch(){
-        chessBoard.addPiece(new Rook(new BoardCell(1, 1), "black"));
-        assertTrue(chessPiece.validateMove(chessBoard, new BoardCell(2, 1)));
+        chessBoard.addPiece(new Rook(new BoardCell(1, 1), "Black"));
+        assertThat(chessPiece.validateMove(chessBoard, new BoardCell(2, 1)), is(true));
     }
 
     @Test
     public void test_validate_move_detects_a_invalid_king_rook_switch() {
-        chessBoard.addPiece(new Rook(new BoardCell(8, 1), "black"));
-        chessBoard.addPiece(new Pawn(new BoardCell(7, 1), "black", "up"));
-        assertFalse(chessPiece.validateMove(chessBoard, new BoardCell(6, 1)));
+        chessBoard.addPiece(new Rook(new BoardCell(8, 1), "Black"));
+        chessBoard.addPiece(new Pawn(new BoardCell(7, 1), "Black", "up"));
+        assertThat(chessPiece.validateMove(chessBoard, new BoardCell(6, 1)), is(false));
     }
 
     @Test
     public void test_is_in_check_returns_true_if_king_in_check_from_rook(){
-        chessBoard.addPiece(new Rook(new BoardCell(4, 5), "white"));
+        chessBoard.addPiece(new Rook(new BoardCell(4, 5), "White"));
         King king = (King) chessPiece;
-        assertTrue(king.isInCheck(chessBoard));
+        assertThat(king.isInCheck(chessBoard), is(true));
     }
 
     @Test
     public void test_is_in_check_returns_true_if_king_in_check_from_queen(){
-        chessBoard.addPiece(new Queen(new BoardCell(7, 1), "white"));
+        chessBoard.addPiece(new Queen(new BoardCell(7, 1), "White"));
         King king = (King) chessPiece;
-        assertTrue(king.isInCheck(chessBoard));
+        assertThat(king.isInCheck(chessBoard), is(true));
         chessBoard.removePiece(chessBoard.getPieceByLocation(new BoardCell(8,5)));
-        chessBoard.addPiece(new Queen(new BoardCell(4, 5), "white"));
-        assertTrue(king.isInCheck(chessBoard));
+        chessBoard.addPiece(new Queen(new BoardCell(4, 5), "White"));
+        assertThat(king.isInCheck(chessBoard), is(true));
     }
 
     @Test
     public void test_is_in_check_returns_true_if_king_in_check_from_bishop(){
-        chessBoard.addPiece(new Bishop(new BoardCell(8, 5), "white"));
+        chessBoard.addPiece(new Bishop(new BoardCell(8, 5), "White"));
         King king = (King) chessPiece;
-        assertTrue(king.isInCheck(chessBoard));
+        assertThat(king.isInCheck(chessBoard), is(true));
     }
 
     @Test
     public void test_is_in_check_returns_true_if_king_in_check_from_knight(){
-        chessBoard.addPiece(new Knight(new BoardCell(5, 3), "white"));
+        chessBoard.addPiece(new Knight(new BoardCell(5, 3), "White"));
         King king = (King) chessPiece;
-        assertTrue(king.isInCheck(chessBoard));
+        assertThat(king.isInCheck(chessBoard), is(true));
     }
 
     @Test
     public void test_is_in_check_returns_false_if_king_is_not_in_check(){
-        chessBoard.addPiece(new Knight(new BoardCell(5, 2), "white"));
+        chessBoard.addPiece(new Knight(new BoardCell(5, 2), "White"));
         King king = (King) chessPiece;
-        assertFalse(king.isInCheck(chessBoard));
+        assertThat(king.isInCheck(chessBoard), is(false));
     }
 
     @Test
@@ -92,14 +92,14 @@ public class KingTest {
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
-        assertTrue(chessBoard.getPieceByLocation(finish).equals(chessPiece));
-        assertNull(chessBoard.getPieceByLocation(new BoardCell(1,4)));
+        assertThat(chessBoard.getPieceByLocation(finish), is(equalTo(chessPiece)));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(1,4)), is(equalTo(null)));
     }
 
     @Test
     public void test_move_piece_takes_other_piece_from_board(){
         BoardCell finish = new BoardCell(4,2);
-        ChessPiece victim = new Rook(finish, "white");
+        ChessPiece victim = new Rook(finish, "White");
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
@@ -107,25 +107,25 @@ public class KingTest {
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
-        assertTrue(chessBoard.getPieceByLocation(finish).equals(chessPiece));
-        assertNull(chessBoard.getPieceByLocation(new BoardCell(1,4)));
-        assertFalse(chessBoard.contains(victim));
-        assertTrue(removedPiece.equals(victim));
+        assertThat(chessBoard.getPieceByLocation(finish), is(equalTo(chessPiece)));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(1,4)), is(equalTo(null)));
+        assertThat(chessBoard.contains(victim), is(false));
+        assertThat(removedPiece, is(equalTo(victim)));
     }
 
     @Test
     public void test_move_piece_updates_piece_and_board_whilst_castling(){
         BoardCell finish = new BoardCell(2,1);
-        ChessPiece rook = new Rook(new BoardCell(1,1),"black");
+        ChessPiece rook = new Rook(new BoardCell(1,1),"Black");
         chessBoard.addPiece(rook);
         try {
             chessPiece.move(chessBoard, finish);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
-        assertTrue(chessBoard.getPieceByLocation(finish).equals(chessPiece));
-        assertNull(chessBoard.getPieceByLocation(new BoardCell(1,4)));
-        assertTrue(chessBoard.getPieceByLocation(new BoardCell(3,1)).equals(rook));
-        assertNull(chessBoard.getPieceByLocation(new BoardCell(1,1)));
+        assertThat(chessBoard.getPieceByLocation(finish), is(equalTo(chessPiece)));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(1,4)), is(equalTo(null)));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(3,1)), is(equalTo(rook)));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(1,1)), is(equalTo(null)));
     }
 }
