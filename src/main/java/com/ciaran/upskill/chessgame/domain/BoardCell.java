@@ -66,18 +66,6 @@ public class BoardCell {
         this.yaxis = yaxis;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        BoardCell that = (BoardCell) o;
-
-        if (xaxis != that.xaxis) return false;
-        return yaxis == that.yaxis;
-
-    }
-
     public void increment(int xModifier, int yModifier) {
         xaxis = xaxis+xModifier;
         yaxis = yaxis+yModifier;
@@ -90,9 +78,29 @@ public class BoardCell {
         return true;
     }
 
-    public String print() {
+    @Override
+    public String toString() {
         String xString = String.valueOf(getXaxisChar());
         String yString = String.valueOf(yaxis);
         return xString+yString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BoardCell that = (BoardCell) o;
+
+        if (xaxis != that.xaxis) return false;
+        return yaxis == that.yaxis;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = xaxis;
+        result = 31 * result + yaxis;
+        return result;
     }
 }

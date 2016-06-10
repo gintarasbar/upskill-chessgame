@@ -1,6 +1,7 @@
 package com.ciaran.upskill.chessgame.domain;
 
 import com.ciaran.upskill.chessgame.Colour;
+import com.ciaran.upskill.chessgame.UserInterface;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.domain.chesspiece.Bishop;
 import com.ciaran.upskill.chessgame.domain.chesspiece.ChessPiece;
@@ -11,6 +12,9 @@ import com.ciaran.upskill.chessgame.domain.chesspiece.Queen;
 import com.ciaran.upskill.chessgame.domain.chesspiece.Rook;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 import static com.ciaran.upskill.chessgame.Colour.BLACK;
 import static com.ciaran.upskill.chessgame.Colour.WHITE;
@@ -27,10 +31,10 @@ import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 
 public class ChessBoard {
 
-    private ArrayList<ChessPiece> piecesOnBoard;
+    private Set<ChessPiece> piecesOnBoard;
 
     public ChessBoard (){
-        piecesOnBoard = new ArrayList<ChessPiece>();
+        piecesOnBoard = new HashSet<ChessPiece>();
 
     }
 
@@ -104,6 +108,31 @@ public class ChessBoard {
                 addPiece(removedPiece);
             }
             return false;
+        }
+        if(chessPiece.getType().equals(PAWN)){
+            Pawn pawn = (Pawn) chessPiece;
+            if((finishPosition.getYaxis()==8&&pawn.getDirection().equals(UP))||(finishPosition.getYaxis()==1&&pawn.getDirection().equals(DOWN))){
+                int choice = new UserInterface(this, new Scanner(System.in)).upgradePawn();
+                switch (choice){
+                    case 1:
+                        chessPiece = new Queen(pawn.getBoardCell(), pawn.getColour());
+                        break;
+                    case 2:
+                        chessPiece = new Rook(pawn.getBoardCell(), pawn.getColour());
+                        break;
+                    case 3:
+                        chessPiece = new Bishop(pawn.getBoardCell(), pawn.getColour());
+                        break;
+                    case 4:
+                        chessPiece = new Knight(pawn.getBoardCell(), pawn.getColour());
+                        break;
+                    default:
+                        chessPiece = new Queen(pawn.getBoardCell(), pawn.getColour());
+                        break;
+                }
+                removePiece(pawn);
+                addPiece(chessPiece);
+            }
         }
         return true;
     }
@@ -325,33 +354,18 @@ public class ChessBoard {
     }
 
     public boolean removePiece(ChessPiece chesspiece) {
-        int index = piecesOnBoard.indexOf(chesspiece);
-        if (index == -1){
-            System.out.println("Can't remove piece -  piece not found");
-            return false;
-        }
-        piecesOnBoard.remove(index);
-        return true;
+        return piecesOnBoard.remove(chesspiece);
     }
 
     public boolean addPiece(ChessPiece chesspiece) {
-        BoardCell boardCell = chesspiece.getBoardCell();
-        if(getPieceByLocation(boardCell)!= null||!boardCell.isValid()){
-            System.out.println("Can't add piece");
-            return false;
-        }
-        piecesOnBoard.add(chesspiece);
-        return true;
-    }
-
-    //for testing
-    public boolean contains(ChessPiece chessPiece){
-        for (ChessPiece pieceOnBoard : piecesOnBoard){
-            if (pieceOnBoard.equals(chessPiece)){
-                return true;
-            }
+        if(getPieceByLocation(chesspiece.getBoardCell())==null) {
+            return piecesOnBoard.add(chesspiece);
         }
         return false;
+    }
+
+    public boolean contains(ChessPiece chessPiece){
+        return piecesOnBoard.contains(chessPiece);
     }
 
 }

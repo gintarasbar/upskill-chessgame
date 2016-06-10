@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static com.ciaran.upskill.chessgame.Colour.BLACK;
@@ -27,6 +29,7 @@ import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.DOWN
 import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -64,9 +67,9 @@ public class ChessBoardTest {
     @Test
     public void test_add_piece_returns_false_and_doesnt_add_piece_to_board_if_space_is_occupied(){
         chessBoard.setUpBoard();
-        ChessPiece pawn = new Pawn(new BoardCell(4,2),BLACK,UP);
-        assertThat(chessBoard.addPiece(pawn), is(false));
-        assertThat(chessBoard.contains(pawn), is(false));
+        ChessPiece rook = new Pawn(new BoardCell(4,2),BLACK,UP);
+        assertThat(chessBoard.addPiece(rook), is(false));
+        assertThat(chessBoard.contains(rook), is(false));
     }
 
     //Test removePiece
@@ -130,7 +133,72 @@ public class ChessBoardTest {
         chessBoard.setUpBoard();
         chessBoard.addPiece(new Rook(new BoardCell(5,5),BLACK));
         chessBoard.addPiece(new Rook(new BoardCell(4,3), BLACK));
-        chessBoard.movePiece(new BoardCell(5,2),new BoardCell(4,3), WHITE);
+        assertThat(chessBoard.movePiece(new BoardCell(5,2),new BoardCell(4,3), WHITE), is(false));
+    }
+
+    @Test
+    public void test_move_piece_upgrades_pawn_if_it_reaches_end_of_board(){
+        String simulatedUserInput = "0";
+        InputStream input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        ChessPiece chesspiece;
+        chessBoard.addPiece(new King(new BoardCell(1,1), BLACK));
+        chessBoard.addPiece(new Pawn(new BoardCell(4,7), BLACK, UP));
+        assertThat(chessBoard.movePiece(new BoardCell(4,7), new BoardCell(4,8),BLACK), is(true));
+        chesspiece = chessBoard.getPieceByLocation(new BoardCell(4,8));
+        assertThat(chesspiece.getType(), is(not(equalTo(PAWN))));
+        assertThat(chesspiece.getColour(), is(equalTo(BLACK)));
+        input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        chessBoard.addPiece(new Pawn(new BoardCell(4,2), BLACK, DOWN));
+        assertThat(chessBoard.movePiece(new BoardCell(4,2), new BoardCell(4,1),BLACK), is(true));
+        chesspiece = chessBoard.getPieceByLocation(new BoardCell(4,1));
+        assertThat(chesspiece.getType(), is(not(equalTo(PAWN))));
+        assertThat(chesspiece.getColour(), is(equalTo(BLACK)));
+    }
+
+    @Test
+    public void test_move_piece_upgrades_pawn_to_queen_if_returned_option_one(){
+        String simulatedUserInput = "1";
+        InputStream input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        chessBoard.addPiece(new King(new BoardCell(1,1), BLACK));
+        chessBoard.addPiece(new Pawn(new BoardCell(4,7), BLACK, UP));
+        assertThat(chessBoard.movePiece(new BoardCell(4,7), new BoardCell(4,8),BLACK), is(true));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(4,8)).getType(), is(equalTo(QUEEN)));
+    }
+
+    @Test
+    public void test_move_piece_upgrades_pawn_to_rook_if_returned_option_two(){
+        String simulatedUserInput = "2";
+        InputStream input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        chessBoard.addPiece(new King(new BoardCell(1,1), BLACK));
+        chessBoard.addPiece(new Pawn(new BoardCell(4,7), BLACK, UP));
+        assertThat(chessBoard.movePiece(new BoardCell(4,7), new BoardCell(4,8),BLACK), is(true));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(4,8)).getType(), is(equalTo(ROOK)));
+    }
+
+    @Test
+    public void test_move_piece_upgrades_pawn_to_bishop_if_returned_option_three(){
+        String simulatedUserInput = "3";
+        InputStream input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        chessBoard.addPiece(new King(new BoardCell(1,1), BLACK));
+        chessBoard.addPiece(new Pawn(new BoardCell(4,7), BLACK, UP));
+        assertThat(chessBoard.movePiece(new BoardCell(4,7), new BoardCell(4,8),BLACK), is(true));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(4,8)).getType(), is(equalTo(BISHOP)));
+    }
+
+    @Test
+    public void test_move_piece_upgrades_pawn_to_knight_if_returned_option_four(){
+        String simulatedUserInput = "4";
+        InputStream input = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        System.setIn(input);
+        chessBoard.addPiece(new King(new BoardCell(1,1), BLACK));
+        chessBoard.addPiece(new Pawn(new BoardCell(4,7), BLACK, UP));
+        assertThat(chessBoard.movePiece(new BoardCell(4,7), new BoardCell(4,8),BLACK), is(true));
+        assertThat(chessBoard.getPieceByLocation(new BoardCell(4,8)).getType(), is(equalTo(KNIGHT)));
     }
 
     @Test

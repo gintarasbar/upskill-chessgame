@@ -43,7 +43,7 @@ public class UserInterface {
             for (int j=1; j<9; j++){
                 ChessPiece chessPiece = chessBoard.getPieceByLocation(new BoardCell(j, i));
                 if (chessPiece!=null){
-                    System.out.println(chessPiece.getBoardCell().print()+" - "+chessPiece.getColour()+" - "+chessPiece.getType());
+                    System.out.println(chessPiece.getBoardCell().toString()+" - "+chessPiece.getColour()+" - "+chessPiece.getType());
                 }
             }
         }
@@ -69,5 +69,17 @@ public class UserInterface {
             System.out.println("No stalemate agreed, play continues on");
             return false;
         }
+    }
+
+    public int upgradePawn() {
+        System.out.println("Your pawn has reached the end of the board");
+        System.out.println("Please select from the following options");
+        System.out.println("1 - Queen");
+        System.out.println("2 - Rook");
+        System.out.println("3 - Bishop");
+        System.out.println("4 - Knight");
+        System.out.print("Option :");
+        return scanner.nextInt();
+
     }
 }
