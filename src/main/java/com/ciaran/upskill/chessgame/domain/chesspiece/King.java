@@ -1,17 +1,20 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.KING;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.ROOK;
 
 public class King extends ChessPiece {
 
     boolean moved;
 
-    public King(BoardCell boardCell, String colour){
-        this.type = "King";
+    public King(BoardCell boardCell, Colour colour){
+        this.type = KING;
         this.boardCell = boardCell;
         this.colour = colour;
         moved = false;
@@ -40,7 +43,7 @@ public class King extends ChessPiece {
                 rookBoardCell.setXaxis(1);
             }
             ChessPiece chessPiece = chessBoard.getPieceByLocation(rookBoardCell);
-            if (!chessPiece.getType().matches("Rook")){
+            if (!chessPiece.getType().equals(ROOK)){
                 return false;
             }
             Rook rook = (Rook) chessPiece;

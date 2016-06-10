@@ -6,6 +6,10 @@ import com.ciaran.upskill.chessgame.domain.BoardCell;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.ciaran.upskill.chessgame.Colour.BLACK;
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.DOWN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -18,7 +22,7 @@ public class PawnTest {
     @Before
     public void setup(){
         chessBoard = new ChessBoard();
-        chessPiece = new Pawn(new BoardCell(2, 2),"Black", "up");
+        chessPiece = new Pawn(new BoardCell(2, 2),BLACK, UP);
         chessBoard.addPiece(chessPiece);
     }
 
@@ -30,13 +34,13 @@ public class PawnTest {
 
     @Test
     public void test_validate_move_detects_a_legal_taking_move(){
-        chessBoard.addPiece(new Pawn(new BoardCell(3, 3), "White", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(3, 3), WHITE, UP));
         assertThat(chessPiece.validateMove(chessBoard, new BoardCell(3, 3)), is(true));
     }
 
     @Test
     public void test_validate_move_detects_an_illegal_move_because_space_is_occupied(){
-        chessBoard.addPiece(new Pawn(new BoardCell(2, 3), "White", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(2, 3), WHITE, UP));
         assertThat(chessPiece.validateMove(chessBoard, new BoardCell(2, 3)), is(false));
     }
 
@@ -57,13 +61,13 @@ public class PawnTest {
 
     @Test
     public void test_validate_move_detects_an_illegal_taking_move_piece_is_of_same_colour(){
-        chessBoard.addPiece(new Pawn(new BoardCell(2, 3), "Black", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(2, 3), BLACK, UP));
         assertThat(chessPiece.validateMove(chessBoard, new BoardCell(2, 3)), is(false));
     }
 
     @Test
     public void test_validate_move_detects_a_move_passing_through_another_piece(){
-        chessBoard.addPiece(new Pawn(new BoardCell(2,3), "Black", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(2,3), BLACK, UP));
         assertThat(chessPiece.validateMove(chessBoard, new BoardCell(2, 4)), is(false));
     }
 
@@ -94,7 +98,7 @@ public class PawnTest {
     @Test
     public void test_move_piece_takes_other_piece_from_board(){
         BoardCell finish = new BoardCell(1,3);
-        ChessPiece victim = new Rook(finish, "White");
+        ChessPiece victim = new Rook(finish, WHITE);
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {
@@ -111,7 +115,7 @@ public class PawnTest {
     @Test
     public void test_move_piece_takes_other_pawn_from_board_in_en_passant(){
         BoardCell finish = new BoardCell(3,6);
-        ChessPiece victim = new Pawn(finish, "White", "down");
+        ChessPiece victim = new Pawn(finish, WHITE, DOWN);
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {

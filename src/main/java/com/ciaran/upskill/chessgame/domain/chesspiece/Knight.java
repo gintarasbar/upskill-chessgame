@@ -1,14 +1,17 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.KNIGHT;
+
 public class Knight extends ChessPiece {
 
-    public Knight(BoardCell boardCell, String colour){
-        this.type = "Knight";
+    public Knight(BoardCell boardCell, Colour colour){
+        this.type = KNIGHT;
         this.boardCell = boardCell;
         this.colour = colour;
     }

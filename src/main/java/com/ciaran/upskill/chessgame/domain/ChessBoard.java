@@ -1,5 +1,6 @@
 package com.ciaran.upskill.chessgame.domain;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.domain.chesspiece.Bishop;
 import com.ciaran.upskill.chessgame.domain.chesspiece.ChessPiece;
@@ -11,8 +12,18 @@ import com.ciaran.upskill.chessgame.domain.chesspiece.Rook;
 
 import java.util.ArrayList;
 
+import static com.ciaran.upskill.chessgame.Colour.BLACK;
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
 import static com.ciaran.upskill.chessgame.UtilClass.modulo;
 import static com.ciaran.upskill.chessgame.UtilClass.switchColour;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.BISHOP;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.KING;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.KNIGHT;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.PAWN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.QUEEN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.ROOK;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.DOWN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 
 public class ChessBoard {
 
@@ -24,38 +35,38 @@ public class ChessBoard {
     }
 
     public void setUpBoard(){
-        piecesOnBoard.add(new Pawn(new BoardCell(1,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(2,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(3,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(4,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(5,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(6,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(7,2), "White", "up"));
-        piecesOnBoard.add(new Pawn(new BoardCell(8,2), "White", "up"));
-        piecesOnBoard.add(new Rook(new BoardCell(1,1), "White"));
-        piecesOnBoard.add(new Rook(new BoardCell(8,1), "White"));
-        piecesOnBoard.add(new Knight(new BoardCell(2,1), "White"));
-        piecesOnBoard.add(new Knight(new BoardCell(7,1), "White"));
-        piecesOnBoard.add(new Bishop(new BoardCell(3,1), "White"));
-        piecesOnBoard.add(new Bishop(new BoardCell(6,1), "White"));
-        piecesOnBoard.add(new King(new BoardCell(5,1), "White"));
-        piecesOnBoard.add(new Queen(new BoardCell(4,1), "White"));
-        piecesOnBoard.add(new Pawn(new BoardCell(1,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(2,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(3,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(4,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(5,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(6,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(7,7), "Black", "down"));
-        piecesOnBoard.add(new Pawn(new BoardCell(8,7), "Black", "down"));
-        piecesOnBoard.add(new Rook(new BoardCell(1,8), "Black"));
-        piecesOnBoard.add(new Rook(new BoardCell(8,8), "Black"));
-        piecesOnBoard.add(new Knight(new BoardCell(2,8), "Black"));
-        piecesOnBoard.add(new Knight(new BoardCell(7,8), "Black"));
-        piecesOnBoard.add(new Bishop(new BoardCell(3,8), "Black"));
-        piecesOnBoard.add(new Bishop(new BoardCell(6,8), "Black"));
-        piecesOnBoard.add(new King(new BoardCell(5,8), "Black"));
-        piecesOnBoard.add(new Queen(new BoardCell(4,8), "Black"));
+        piecesOnBoard.add(new Pawn(new BoardCell(1,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(2,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(3,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(4,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(5,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(6,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(7,2), WHITE, UP));
+        piecesOnBoard.add(new Pawn(new BoardCell(8,2), WHITE, UP));
+        piecesOnBoard.add(new Rook(new BoardCell(1,1), WHITE));
+        piecesOnBoard.add(new Rook(new BoardCell(8,1), WHITE));
+        piecesOnBoard.add(new Knight(new BoardCell(2,1), WHITE));
+        piecesOnBoard.add(new Knight(new BoardCell(7,1), WHITE));
+        piecesOnBoard.add(new Bishop(new BoardCell(3,1), WHITE));
+        piecesOnBoard.add(new Bishop(new BoardCell(6,1), WHITE));
+        piecesOnBoard.add(new King(new BoardCell(5,1), WHITE));
+        piecesOnBoard.add(new Queen(new BoardCell(4,1), WHITE));
+        piecesOnBoard.add(new Pawn(new BoardCell(1,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(2,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(3,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(4,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(5,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(6,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(7,7), BLACK, DOWN));
+        piecesOnBoard.add(new Pawn(new BoardCell(8,7), BLACK, DOWN));
+        piecesOnBoard.add(new Rook(new BoardCell(1,8), BLACK));
+        piecesOnBoard.add(new Rook(new BoardCell(8,8), BLACK));
+        piecesOnBoard.add(new Knight(new BoardCell(2,8), BLACK));
+        piecesOnBoard.add(new Knight(new BoardCell(7,8), BLACK));
+        piecesOnBoard.add(new Bishop(new BoardCell(3,8), BLACK));
+        piecesOnBoard.add(new Bishop(new BoardCell(6,8), BLACK));
+        piecesOnBoard.add(new King(new BoardCell(5,8), BLACK));
+        piecesOnBoard.add(new Queen(new BoardCell(4,8), BLACK));
     }
 
     public ChessPiece getPieceByLocation(BoardCell boardCell){
@@ -67,10 +78,10 @@ public class ChessBoard {
         return null;
     }
 
-    public boolean movePiece(BoardCell startPosition, BoardCell finishPosition, String colour){
+    public boolean movePiece(BoardCell startPosition, BoardCell finishPosition, Colour colour){
         ChessPiece chessPiece = getPieceByLocation(startPosition);
         //Check moving corrrect colour piece
-        if(!chessPiece.getColour().matches(colour)){
+        if(!chessPiece.getColour().equals(colour)){
             System.out.println("This move is invalid - you can only move a piece of your own colour!");
             return false;
         }
@@ -79,7 +90,7 @@ public class ChessBoard {
             return false;
         }
         ChessPiece removedPiece = getPieceByLocation(finishPosition);
-        if (removedPiece!= null ? removedPiece.getColour().matches(colour) : false) return false;
+        if (removedPiece!= null ? removedPiece.getColour().equals(colour) : false) return false;
         try {
             removedPiece = chessPiece.move(this, finishPosition);
         } catch (IllegalMoveException e) {
@@ -97,7 +108,7 @@ public class ChessBoard {
         return true;
     }
 
-    public ArrayList<ChessPiece> findPiecesOneMoveAway(BoardCell boardcell, String colour){
+    public ArrayList<ChessPiece> findPiecesOneMoveAway(BoardCell boardcell, Colour colour){
 
         BoardCell roamingBoardCell = null;
         ArrayList<ChessPiece> piecesOneMoveAway = new ArrayList<ChessPiece>();
@@ -132,12 +143,12 @@ public class ChessBoard {
             while(roamingBoardCell.isValid()&&chessPiece==null){
                 chessPiece = this.getPieceByLocation(roamingBoardCell);
                 if (chessPiece != null){
-                    if(!chessPiece.getColour().matches(colour)){
-                        if(chessPiece.getType().matches("Queen")||chessPiece.getType().matches("Rook")){
+                    if(!chessPiece.getColour().equals(colour)){
+                        if(chessPiece.getType().equals(QUEEN)||chessPiece.getType().equals(ROOK)){
                             piecesOneMoveAway.add(chessPiece);
                         }
                         if(j==1){
-                            if (chessPiece.getType().matches("King")){
+                            if (chessPiece.getType().equals(KING)){
                                 piecesOneMoveAway.add(chessPiece);
                             }
                         }
@@ -151,27 +162,27 @@ public class ChessBoard {
         for(int i = 0; i<4; i++){
             roamingBoardCell = new BoardCell(boardcell.getXaxis(),boardcell.getYaxis());
             chessPiece = null;
-            String direction = null;
+            Pawn.Direction direction = null;
             switch (i){
                 case 0: //Up&Right
                     xModifier = 1;
                     yModifier= 1;
-                    direction = "down";
+                    direction = DOWN;
                     break;
                 case 1: //Up&Left
                     xModifier = -1;
                     yModifier= 1;
-                    direction = "down";
+                    direction = DOWN;
                     break;
                 case 2: //Down&Right
                     xModifier = 1;
                     yModifier= -1;
-                    direction = "up";
+                    direction = UP;
                     break;
                 case 3: //Down&Left
                     xModifier = -1;
                     yModifier= -1;
-                    direction = "up";
+                    direction = UP;
                     break;
             }
             roamingBoardCell.increment(xModifier,yModifier);
@@ -179,17 +190,17 @@ public class ChessBoard {
             while(roamingBoardCell.isValid()&&chessPiece==null){
                 chessPiece = this.getPieceByLocation(roamingBoardCell);
                 if (chessPiece != null){
-                    if(!chessPiece.getColour().matches(colour)){
-                        if(chessPiece.getType().matches("Queen")||chessPiece.getType().matches("Bishop")){
+                    if(!chessPiece.getColour().equals(colour)){
+                        if(chessPiece.getType().equals(QUEEN)||chessPiece.getType().equals(BISHOP)){
                             piecesOneMoveAway.add(chessPiece);
                         }
                         if(j==1){
-                            if(chessPiece.getType().matches("Pawn")) {
+                            if(chessPiece.getType().equals(PAWN)) {
                                 Pawn pawn = (Pawn) chessPiece;
-                                if (pawn.getDirection().matches(direction)){
+                                if (pawn.getDirection().equals(direction)){
                                     piecesOneMoveAway.add(chessPiece);
                                 }
-                            } else if (chessPiece.getType().matches("King")){
+                            } else if (chessPiece.getType().equals(KING)){
                                 piecesOneMoveAway.add(chessPiece);
                             }
                         }
@@ -215,8 +226,8 @@ public class ChessBoard {
                 chessPiece = this.getPieceByLocation(knightCell);
             }
             if(chessPiece!=null){
-                if(!chessPiece.getColour().matches(colour)) {
-                    if (chessPiece.getType().matches("Knight")) {
+                if(!chessPiece.getColour().equals(colour)) {
+                    if (chessPiece.getType().equals(KNIGHT)) {
                         piecesOneMoveAway.add(chessPiece);
                     }
                 }
@@ -225,10 +236,10 @@ public class ChessBoard {
         return piecesOneMoveAway;
     }
 
-    public King getKing(String colour) {
+    public King getKing(Colour colour) {
         for(ChessPiece chesspiece : piecesOnBoard){
-            if (chesspiece.getType().matches("King")){
-                if(chesspiece.getColour().matches(colour)){
+            if (chesspiece.getType().equals(KING)){
+                if(chesspiece.getColour().equals(colour)){
                     return (King) chesspiece;
                 }
 
@@ -237,12 +248,12 @@ public class ChessBoard {
         return null;
     }
 
-    public boolean isInCheckMate(String colour) {
+    public boolean isInCheckMate(Colour colour) {
         //is King in check
         King king = getKing(colour);
         BoardCell kingcell = king.getBoardCell();
         ArrayList<ChessPiece> piecesThreateningKing = findPiecesOneMoveAway(king.getBoardCell(), king.getColour());
-        String opposingColour = switchColour(king.getColour());
+        Colour opposingColour = switchColour(king.getColour());
         if (piecesThreateningKing.isEmpty()){
             return false;
         }
@@ -260,7 +271,7 @@ public class ChessBoard {
         for (BoardCell kingsMoveCell : kingsMoves){
             if(kingsMoveCell.isValid()) {
                 ChessPiece chessPiece = getPieceByLocation(kingsMoveCell);
-                if(chessPiece!= null ? chessPiece.getColour().matches(king.getColour()) : true) {
+                if(chessPiece!= null ? chessPiece.getColour().equals(king.getColour()) : true) {
                     if (findPiecesOneMoveAway(kingsMoveCell, king.getColour()).isEmpty()) {
                         addPiece(king);
                         return false;
@@ -272,7 +283,7 @@ public class ChessBoard {
         //can A Piece block check
         if (piecesThreateningKing.size()==1){
             ChessPiece chessPieceForcingCheck = piecesThreateningKing.get(0);
-            if(!chessPieceForcingCheck.getType().matches("Knight")){
+            if(!chessPieceForcingCheck.getType().equals(KNIGHT)){
                 int xAxisDiff = chessPieceForcingCheck.getBoardCell().getXaxis()-king.getBoardCell().getXaxis();
                 int yAxisDiff = chessPieceForcingCheck.getBoardCell().getYaxis()-king.getBoardCell().getYaxis();
                 int xModifier = 0;

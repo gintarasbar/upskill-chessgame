@@ -1,18 +1,20 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.UtilClass;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.ROOK;
 
 public class Rook extends ChessPiece {
 
     private  boolean moved;
 
-    public Rook (BoardCell boardCell, String colour){
-        this.type = "Rook";
+    public Rook (BoardCell boardCell, Colour colour){
+        this.type = ROOK;
         this.boardCell = boardCell;
         this.colour = colour;
         moved = false;

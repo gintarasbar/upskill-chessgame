@@ -1,19 +1,28 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 import static com.ciaran.upskill.chessgame.UtilClass.modulo;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.ChessPieceType.PAWN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.DOWN;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 
 public class Pawn extends ChessPiece {
 
     private final BoardCell startPosition;
-    private String direction;
+    private Direction direction;
     private int moved;
 
-    public Pawn(BoardCell boardCell, String colour, String direction){
-        this.type = "Pawn";
+    public enum Direction{
+        UP,
+        DOWN;
+    }
+
+    public Pawn(BoardCell boardCell, Colour colour, Direction direction){
+        this.type = PAWN;
         this.boardCell = boardCell;
         this.startPosition = boardCell;
         this.colour = colour;
@@ -28,7 +37,7 @@ public class Pawn extends ChessPiece {
             System.out.println("Illegal - Pawn move");
             return false;
         }
-        if ((yAxisDiff > 0 && direction.matches("down")) || (yAxisDiff < 0 && direction.matches("up"))) {
+        if ((yAxisDiff > 0 && direction.equals(DOWN)) || (yAxisDiff < 0 && direction.equals(UP))) {
             System.out.println("Pawn must move forward");
             return false;
         }
@@ -39,7 +48,7 @@ public class Pawn extends ChessPiece {
                 ChessPiece chessPiece = chessBoard.getPieceByLocation(finishPosition);
                 finishPosition.setYaxis(yAxis);
                 if(chessPiece!=null){
-                    if (!chessPiece.getType().matches("Pawn")){
+                    if (!chessPiece.getType().equals(PAWN)){
                         System.out.println("Illegal - Pawn move");
                         return false;
                     }
@@ -77,7 +86,7 @@ public class Pawn extends ChessPiece {
         return true;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 

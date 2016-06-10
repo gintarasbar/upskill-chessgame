@@ -1,5 +1,8 @@
 package com.ciaran.upskill.chessgame;
 
+import static com.ciaran.upskill.chessgame.Colour.BLACK;
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
+
 public class UtilClass {
 
     public static int modulo(int integer) {
@@ -10,14 +13,14 @@ public class UtilClass {
         return modulo;
     }
 
-    public static String switchColour(String colour) {
+    public static Colour switchColour(Colour colour) {
         if (colour==null){
             return null;
         }
-        if (colour.matches("Black")) {
-            return "White";
-        } else if (colour.matches("White")){
-            return "Black";
+        if (colour.equals(BLACK)) {
+            return WHITE;
+        } else if (colour.equals(WHITE)){
+            return BLACK;
         }
         return null;
 

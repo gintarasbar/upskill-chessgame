@@ -19,6 +19,8 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.zip.CheckedOutputStream;
 
+import static com.ciaran.upskill.chessgame.Colour.BLACK;
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
@@ -49,9 +51,9 @@ public class UserInterfaceTest {
         scanner = new Scanner(System.in);
         chessBoard = spy(new ChessBoard());
         userInterface = new UserInterface(chessBoard, scanner);
-        doReturn(true).when(chessBoard).movePiece(any(BoardCell.class), any(BoardCell.class), anyString());
+        doReturn(true).when(chessBoard).movePiece(any(BoardCell.class), any(BoardCell.class), any(Colour.class));
 
-        assertThat(userInterface.inputMove("White"), is(true));
+        assertThat(userInterface.inputMove(WHITE), is(true));
     }
 
     @Test
@@ -62,9 +64,9 @@ public class UserInterfaceTest {
         scanner = new Scanner(System.in);
         chessBoard = spy(new ChessBoard());
         userInterface = new UserInterface(chessBoard, scanner);
-        doReturn(false).when(chessBoard).movePiece(any(BoardCell.class), any(BoardCell.class), anyString());
+        doReturn(false).when(chessBoard).movePiece(any(BoardCell.class), any(BoardCell.class), any(Colour.class));
 
-        assertThat(userInterface.inputMove("White"), is(false));
+        assertThat(userInterface.inputMove(WHITE), is(false));
     }
 
     //isConcession
@@ -111,7 +113,7 @@ public class UserInterfaceTest {
         scanner = new Scanner(System.in);
         chessBoard = new ChessBoard();
         userInterface = new UserInterface(chessBoard, scanner);
-        ChessPiece chessPiece = new Rook(new BoardCell(3,7), "White");
+        ChessPiece chessPiece = new Rook(new BoardCell(3,7), WHITE);
         chessBoard.addPiece(chessPiece);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -130,7 +132,7 @@ public class UserInterfaceTest {
         chessBoard = spy(new ChessBoard());
         userInterface = new UserInterface(chessBoard, scanner);
 
-        assertThat(userInterface.checkStaleMate("Black"), is(true));
+        assertThat(userInterface.checkStaleMate(BLACK), is(true));
     }
 
     @Test
@@ -142,7 +144,7 @@ public class UserInterfaceTest {
         chessBoard = spy(new ChessBoard());
         userInterface = new UserInterface(chessBoard, scanner);
 
-        assertThat(userInterface.checkStaleMate("Black"), is(false));
+        assertThat(userInterface.checkStaleMate(BLACK), is(false));
     }
 
 }

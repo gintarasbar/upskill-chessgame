@@ -6,6 +6,9 @@ import com.ciaran.upskill.chessgame.domain.BoardCell;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.ciaran.upskill.chessgame.Colour.BLACK;
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
+import static com.ciaran.upskill.chessgame.domain.chesspiece.Pawn.Direction.UP;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -18,7 +21,7 @@ public class BishopTest {
     @Before
     public void setup(){
         chessBoard = new ChessBoard();
-        chessPiece = new Bishop(new BoardCell(1, 4),"Black");
+        chessPiece = new Bishop(new BoardCell(1, 4),BLACK);
         chessBoard.addPiece(chessPiece);
     }
 
@@ -35,7 +38,7 @@ public class BishopTest {
 
     @Test
     public void test_validate_move_detects_a_move_passing_through_another_piece(){
-        chessBoard.addPiece(new Pawn(new BoardCell(2,5), "Black", "up"));
+        chessBoard.addPiece(new Pawn(new BoardCell(2,5), BLACK, UP));
         assertThat(chessPiece.validateMove(chessBoard, new BoardCell(3, 6)), is(false));
     }
 
@@ -54,7 +57,7 @@ public class BishopTest {
     @Test
     public void test_move_piece_takes_other_piece_from_board(){
         BoardCell finish = new BoardCell(4,7);
-        ChessPiece victim = new Rook(finish, "White");
+        ChessPiece victim = new Rook(finish, WHITE);
         chessBoard.addPiece(victim);
         ChessPiece removedPiece = null;
         try {

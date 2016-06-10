@@ -6,6 +6,7 @@ import com.ciaran.upskill.chessgame.exceptions.GameStaleMateException;
 
 import java.util.Scanner;
 
+import static com.ciaran.upskill.chessgame.Colour.WHITE;
 import static com.ciaran.upskill.chessgame.UtilClass.switchColour;
 
 
@@ -22,7 +23,7 @@ public class ChessGame {
         chessBoard.setUpBoard();
         userInterface = new UserInterface(chessBoard, new Scanner(System.in));
         boolean checkMate = false;
-        String colour = "White";
+        Colour colour = WHITE;
         while (!checkMate) {
             try {
                 playerTurn(colour);
@@ -40,7 +41,7 @@ public class ChessGame {
         System.out.println("Checkmate, "+colour+" wins the game!");
     }
 
-    private static void playerTurn(String colour) throws GameConcessionException, GameStaleMateException {
+    private static void playerTurn(Colour colour) throws GameConcessionException, GameStaleMateException {
         System.out.println("It is "+colour+"'s turn.");
         boolean valid = false;
         while(!valid){

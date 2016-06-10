@@ -1,28 +1,29 @@
 package com.ciaran.upskill.chessgame.domain.chesspiece;
 
+import com.ciaran.upskill.chessgame.Colour;
 import com.ciaran.upskill.chessgame.domain.ChessBoard;
 import com.ciaran.upskill.chessgame.exceptions.IllegalMoveException;
 import com.ciaran.upskill.chessgame.domain.BoardCell;
 
 public abstract class ChessPiece {
 
-    protected String type;
+    protected ChessPieceType type;
     protected BoardCell boardCell;
-    protected String colour;
+    protected Colour colour;
 
-    public String getColour() {
+    public Colour getColour() {
         return colour;
     }
 
-    public void setColour(String colour) {
+    public void setColour(Colour colour) {
         this.colour = colour;
     }
 
-    public String getType() {
+    public ChessPieceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ChessPieceType type) {
         this.type = type;
     }
 
